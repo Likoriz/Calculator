@@ -127,7 +127,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BigInteger.cpp" />
+    <ClCompile Include="Bracket.cpp" />
     <ClCompile Include="Calculator.cpp" />
+    <ClCompile Include="Constant.cpp" />
+    <ClCompile Include="Float.cpp" />
+    <ClCompile Include="Fraction.cpp" />
+    <ClCompile Include="Imaginary.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="Operator.cpp" />
+    <ClCompile Include="Variable.cpp" />
+    <ClCompile Include="Token.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BigInteger.h" />
+    <ClInclude Include="Bracket.h" />
+    <ClInclude Include="Calculator.h" />
+    <ClInclude Include="Constant.h" />
+    <ClInclude Include="Float.h" />
+    <ClInclude Include="Fraction.h" />
+    <ClInclude Include="Imaginary.h" />
+    <ClInclude Include="Matrix.h" />
+    <ClInclude Include="Operator.h" />
+    <ClInclude Include="Variable.h" />
+    <ClInclude Include="Token.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
