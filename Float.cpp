@@ -5,17 +5,17 @@ Float::Float(std::string name):Variable(name)
 	setDataType(dataType::FLOAT);
 }
 
-void Float::operator+(Variable* arg)
+Variable* Float::operator+(Variable* arg)
 {
 	val+=((Float*)arg)->val;
 }
 
-void Float::operator*(Variable* arg)
+Variable* Float::operator*(Variable* arg)
 {
 	val*=((Float*)arg)->val;
 }
 
-void Float::operator-(Variable* arg)
+Variable* Float::operator-(Variable* arg)
 {
 	val-=((Float*)arg)->val;
 }
@@ -28,4 +28,10 @@ void Float::operator/(Variable* arg)
 std::ostream& operator << (std::ostream& os, const Float& variable)
 {
 	return os<<variable.val<<std::endl;
+}
+}
+
+Variable* Float::toUpDegree(int degree)
+{
+	return nullptr;
 }

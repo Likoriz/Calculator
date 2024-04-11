@@ -5,18 +5,26 @@ BigInteger::BigInteger(string name):Variable(name)
 	setDataType(dataType::BIGINT);
 }
 
-void BigInteger::operator+(Variable* arg)
+Variable* BigInteger::operator+(Variable* arg)
 {
+	return nullptr;
 }
 
-void BigInteger::operator*(Variable* arg)
+Variable* BigInteger::operator*(Variable* arg)
 {
+	return nullptr;
 }
 
-void BigInteger::operator-(Variable* arg)
+Variable* BigInteger::operator-(Variable* arg)
 {
+	return nullptr;
 }
 
 void BigInteger::operator/(Variable* arg)
 {
+}
+
+Variable* BigInteger::toUpDegree(int degree)
+{
+	return nullptr;
 }
