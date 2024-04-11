@@ -48,7 +48,7 @@ void Calculator::Tokenize()
 				string stringVal;
 				do{
 					stringVal+=*it;
-				} while(++it!=expression.end()&&*it>='0'&&*it<='9');
+				} while(++it!=expression.end()&&(*it>='0'&&*it<='9'||*it=='.'));
 				value=stof(stringVal);
 				tokens.push_back(new Constant(value));
 			}

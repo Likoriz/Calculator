@@ -14,4 +14,5 @@ Variable::Variable(std::string name)
 {
 	setTokenType(tokenType::VARIABLE);
 	nameOfVariable=name;
+	printf("Введите значение переменной %s", name);
 }
