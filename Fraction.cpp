@@ -5,18 +5,26 @@ Fraction::Fraction(std::string name):Variable(name)
 	setDataType(dataType::FRACTION);
 }
 
-void Fraction::operator+(Variable* arg)
+Variable* Fraction::operator+(Variable* arg)
 {
+	return nullptr;
 }
 
-void Fraction::operator*(Variable* arg)
+Variable* Fraction::operator*(Variable* arg)
 {
+	return nullptr;
 }
 
-void Fraction::operator-(Variable* arg)
+Variable* Fraction::operator-(Variable* arg)
 {
+	return nullptr;
 }
 
 void Fraction::operator/(Variable* arg)
 {
+}
+
+Variable* Fraction::toUpDegree(int degree)
+{
+	return nullptr;
 }
