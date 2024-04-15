@@ -10,5 +10,6 @@ public:
 	Variable* operator -(Variable* arg);
 	Variable* operator /(Variable* arg);
 	Variable* toUpDegree(int degree);
+	void print(Variable* arg = nullptr);
 };
 

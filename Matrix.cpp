@@ -5,9 +5,9 @@ using namespace std;
 Matrix::Matrix(string name) : Variable(name)
 {
 	setDataType(dataType::MATRIX);
-	cout<<"введите кол-во строк и столбцов, а затем каждый элемент:";
+	cout << "Введите кол-во строк и столбцов: " << endl;
 	cin >> rows >> cols;
-	cout << endl;
+	cout << "Введите построчно матрицу: " << endl;
 
 	elements.resize(rows, std::vector<float>(cols, 0));
 
@@ -18,7 +18,7 @@ Matrix::Matrix(string name) : Variable(name)
 	cout << endl;
 }
 
-Matrix::Matrix(string name, int rows_, int cols_)
+Matrix::Matrix(int rows_, int cols_)
 {
 	setDataType(dataType::MATRIX);
 
@@ -34,7 +34,7 @@ Variable* Matrix::operator+(Variable* arg)
 
 	if (rows == m->rows && cols == m->cols)
 	{
-		Variable* result = new Matrix("res", m->rows, m->cols);
+		Variable* result = new Matrix(m->rows, m->cols);
 		for (int i = 0; i < rows; i++)
 			for (int j = 0; j < cols; j++)
 				dynamic_cast<Matrix*>(result)->elements[i][j] = elements[i][j] + m->elements[i][j];
@@ -51,7 +51,7 @@ Variable* Matrix::operator*(Variable* arg)
 
 	if (cols == m->rows)
 	{
-		Variable* result = new Matrix("res", rows, m->cols);
+		Variable* result = new Matrix(rows, m->cols);
 		for (int i = 0; i < rows; i++)
 			for (int j = 0; j < m->cols; j++)
 				for (int k = 0; k < cols; k++)
@@ -69,7 +69,7 @@ Variable* Matrix::operator-(Variable* arg)
 
 	if (rows == m->rows && cols == m->cols)
 	{
-		Variable* result = new Matrix("res", m->rows, m->cols);
+		Variable* result = new Matrix(m->rows, m->cols);
 		for (int i = 0; i < rows; i++)
 			for (int j = 0; j < cols; j++)
 				dynamic_cast<Matrix*>(result)->elements[i][j] = elements[i][j] - m->elements[i][j];
@@ -82,14 +82,14 @@ Variable* Matrix::operator-(Variable* arg)
 
 Variable* Matrix::operator/(Variable* arg)
 {
-	return this;
+	throw exception("Деление матриц - это миф.");
 }
 
 Variable* Matrix::toUpDegree(int degree)
 {
 	if (degree == 0)
 	{
-		Variable* result = new Matrix("res", rows, cols);
+		Variable* result = new Matrix(rows, cols);
 		for (int i = 0; i < rows; i++)
 			for (int j = 0; j < cols; j++)
 				dynamic_cast<Matrix*>(result)->elements[i][j] = (i == j) ? 1 : 0;
@@ -102,8 +102,8 @@ Variable* Matrix::toUpDegree(int degree)
 	}
 	else
 	{
-		Variable* result = new Matrix("res", rows, cols);
-		Variable* temp = new Matrix("temp", rows, cols);
+		Variable* result = new Matrix(rows, cols);
+		Variable* temp = new Matrix(rows, cols);
 		for (int i = 0; i < rows; i++)
 			for (int j = 0; j < cols; j++)
 				dynamic_cast<Matrix*>(temp)->elements[i][j] = elements[i][j];
@@ -124,17 +124,22 @@ Variable* Matrix::toUpDegree(int degree)
 	}
 }
 
-ostream& operator<<(std::ostream& os, const Variable* arg)
+void Matrix::print(Variable* arg)
 {
-	const Matrix* m = dynamic_cast<const Matrix*>(arg);
+	const Matrix* m = dynamic_cast<Matrix*>(arg);
 
 	if (m)
 		for (int i = 0; i < m->rows; i++)
 		{
 			for (int j = 0; j < m->cols; j++)
-				os << m->elements[i][j] << " ";
-			os << endl;
+				cout << m->elements[i][j] << " ";
+			cout << endl;
 		}
-
-	return os;
+	else
+		for (int i = 0; i < rows; i++)
+		{
+			for (int j = 0; j < cols; j++)
+				cout << elements[i][j] << " ";
+			cout << endl;
+		}
 }

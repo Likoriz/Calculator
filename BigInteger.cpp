@@ -30,3 +30,8 @@ Variable* BigInteger::toUpDegree(int degree)
 {
 	return this;
 }
+
+void BigInteger::print(Variable* arg)
+{
+
+}

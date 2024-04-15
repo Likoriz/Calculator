@@ -42,3 +42,8 @@ Variable* Float::toUpDegree(int degree)
 	val=pow(val, degree);
 	return this;
 }
+
+void Float::print(Variable* arg)
+{
+	cout << val;
+}
