@@ -101,7 +101,64 @@ void Fraction::print(Variable* arg)
 	Fraction* f = dynamic_cast<Fraction*>(arg);
 
 	if (f)
+	{
+		f = minimize(f);
 		cout << f->integer << "[" << f->numerator << "/" << f->denominator << "]" << endl;
+	}
 	else
+	{
+		minimize();
 		cout << integer << "[" << numerator << "/" << denominator << "]" << endl;
+	}
+}
+
+Fraction* Fraction::minimize(Fraction* f)
+{
+	Fraction* result = new Fraction();
+
+	if (f)
+	{
+		if (f->numerator >= f->denominator)
+		{
+			result->integer = f->numerator / f->denominator;
+			result->numerator = f->numerator % f->denominator;
+			result->denominator = f->denominator;
+		}
+		else
+		{
+			int delimer = LCD(f->numerator, f->denominator);
+			result->numerator = f->numerator / delimer;
+			result->denominator = f->denominator / delimer;
+		}
+	}
+	else
+	{
+		if (numerator >= denominator)
+		{
+			result->integer = numerator / denominator;
+			result->numerator = numerator % denominator;
+			result->denominator = denominator;
+		}
+		else
+		{
+			int delimer = LCD(numerator, denominator);
+			result->numerator = numerator / delimer;
+			result->denominator = denominator / delimer;
+		}
+	}
+
+	return result;
+}
+
+int Fraction::LCD(int numerator, int denominator)
+{
+	while (numerator != denominator)
+	{
+		if (numerator > denominator)
+			numerator -= denominator;
+		else
+			denominator -= numerator;
+	}
+
+	return numerator;
 }

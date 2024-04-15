@@ -16,5 +16,7 @@ public:
 	Variable* operator /(Variable* arg);
 	Variable* toUpDegree(int degree);
 	void print(Variable* arg = nullptr);
+	Fraction* minimize(Fraction* f = nullptr);
+	int LCD(int numerator, int denominator);
 };
 
