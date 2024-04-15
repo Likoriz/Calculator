@@ -16,5 +16,4 @@ public:
 	virtual Variable* toUpDegree(int degree) = 0;
 	dataType getDataType();
 	void setDataType(dataType type);
-	virtual void print(Variable* arg = nullptr) = 0;
 };

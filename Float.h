@@ -1,7 +1,7 @@
 #pragma once
 #include "Variable.h"
-
-class Float : public Variable
+class Float :
+    public Variable
 {
 	friend std::ostream& operator << (std::ostream& os, const Float& variable);
 private:
@@ -13,6 +13,5 @@ public:
 	Variable* operator -(Variable* arg);
 	Variable* operator /(Variable* arg);
 	Variable* toUpDegree(int degree);
-	void print(Variable* arg = nullptr);
 };
 

@@ -30,8 +30,3 @@ Variable* Imaginary::toUpDegree(int degree)
 {
 	return this;
 }
-
-void Imaginary::print(Variable* arg)
-{
-
-}

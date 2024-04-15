@@ -10,12 +10,12 @@ private:
 	std::vector<std::vector<float>> elements;
 public:
 	Matrix(std::string name);
-	Matrix(int rows_, int cols_);
+	Matrix(std::string name, int rows_, int cols_);
 	Variable* operator+(Variable* arg);
 	Variable* operator *(Variable* arg);
 	Variable* operator-(Variable* arg);
 	Variable* operator /(Variable* arg);
 	Variable* toUpDegree(int degree);
-	void print(Variable* arg = nullptr);
+	friend std::ostream& operator<<(std::ostream& os, const Variable* arg);
 };
 

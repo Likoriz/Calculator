@@ -77,11 +77,11 @@ void Calculator::Tokenize()
 			it--;
 		}
 	}
-	//for (auto it = tokens.begin(); it != tokens.end(); it++)
-	//{
-	//	(*it)->printYourType();
-	//}
-	//cout<<endl;
+	for (auto it = tokens.begin(); it != tokens.end(); it++)
+	{
+		(*it)->printYourType();
+	}
+	cout<<endl;
 }
 
 
