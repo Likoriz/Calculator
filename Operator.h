@@ -9,5 +9,6 @@ private:
 	int priority;
 public:
 	Operator(operatorsType type);
+	operatorsType getType();
 };
 
