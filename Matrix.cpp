@@ -7,6 +7,10 @@ Matrix::Matrix(string name) : Variable(name)
 	setDataType(dataType::MATRIX);
 	cout << "Введите кол-во строк и столбцов: " << endl;
 	cin >> rows >> cols;
+
+	if (rows == 0 || cols == 0)
+		throw exception("Матрица не может быть нулевого размера!");
+
 	cout << "Введите построчно матрицу: " << endl;
 
 	elements.resize(rows, std::vector<float>(cols, 0));
