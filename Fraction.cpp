@@ -72,6 +72,9 @@ Variable* Fraction::operator/(Variable* arg)
 	const Fraction* f = dynamic_cast<const Fraction*>(arg);
 	Variable* result = new Fraction();
 
+	if (f->numerator == 0)
+		throw exception("Делить на нуль нельзя!");
+
 	dynamic_cast<Fraction*>(result)->numerator = numerator * f->denominator;
 	dynamic_cast<Fraction*>(result)->denominator = denominator * f->numerator;
 
@@ -117,7 +120,6 @@ Fraction* Fraction::minimize(Fraction* f)
 	Fraction* result = new Fraction();
 
 	if (f)
-	{
 		if (f->numerator >= f->denominator)
 		{
 			result->integer = f->numerator / f->denominator;
@@ -130,9 +132,7 @@ Fraction* Fraction::minimize(Fraction* f)
 			result->numerator = f->numerator / delimer;
 			result->denominator = f->denominator / delimer;
 		}
-	}
 	else
-	{
 		if (numerator >= denominator)
 		{
 			result->integer = numerator / denominator;
@@ -145,7 +145,6 @@ Fraction* Fraction::minimize(Fraction* f)
 			result->numerator = numerator / delimer;
 			result->denominator = denominator / delimer;
 		}
-	}
 
 	return result;
 }
@@ -153,12 +152,10 @@ Fraction* Fraction::minimize(Fraction* f)
 int Fraction::LCD(int numerator, int denominator)
 {
 	while (numerator != denominator)
-	{
 		if (numerator > denominator)
 			numerator -= denominator;
 		else
 			denominator -= numerator;
-	}
 
 	return numerator;
 }
