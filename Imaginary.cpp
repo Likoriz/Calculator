@@ -3,28 +3,30 @@
 Imaginary::Imaginary(std::string name):Variable(name)
 {
 	setDataType(dataType::IMAGINARY);
+	std::cout<<"введите а и б:";
 }
 
 Variable* Imaginary::operator+(Variable* arg)
 {
-	return nullptr;
+	return this;
 }
 
 Variable* Imaginary::operator*(Variable* arg)
 {
-	return nullptr;
+	return this;
 }
 
 Variable* Imaginary::operator-(Variable* arg)
 {
-	return nullptr;
+	return this;
 }
 
-void Imaginary::operator/(Variable* arg)
+Variable* Imaginary::operator/(Variable* arg)
 {
+	return this;
 }
 
 Variable* Imaginary::toUpDegree(int degree)
 {
-	return nullptr;
+	return this;
 }

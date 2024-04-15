@@ -5,7 +5,7 @@ using namespace std;
 Matrix::Matrix(string name) : Variable(name)
 {
 	setDataType(dataType::MATRIX);
-
+	cout<<"введите кол-во строк и столбцов, а затем каждый элемент:";
 	cin >> rows >> cols;
 	cout << endl;
 
@@ -18,7 +18,7 @@ Matrix::Matrix(string name) : Variable(name)
 	cout << endl;
 }
 
-Matrix::Matrix(string name, int rows_, int cols_) : Variable(name)
+Matrix::Matrix(string name, int rows_, int cols_)
 {
 	setDataType(dataType::MATRIX);
 
@@ -80,9 +80,9 @@ Variable* Matrix::operator-(Variable* arg)
 	return nullptr;
 }
 
-void Matrix::operator/(Variable* arg)
+Variable* Matrix::operator/(Variable* arg)
 {
-
+	return this;
 }
 
 Variable* Matrix::toUpDegree(int degree)
@@ -98,12 +98,7 @@ Variable* Matrix::toUpDegree(int degree)
 	}
 	else if (degree == 1)
 	{
-		Variable* result = new Matrix("res", rows, cols);
-		for (int i = 0; i < rows; i++)
-			for (int j = 0; j < cols; j++)
-				dynamic_cast<Matrix*>(result)->elements[i][j] = elements[i][j];
-
-		return result;
+		return this;
 	}
 	else
 	{

@@ -14,7 +14,7 @@ public:
 	Variable* operator+(Variable* arg);
 	Variable* operator *(Variable* arg);
 	Variable* operator-(Variable* arg);
-	void operator /(Variable* arg);
+	Variable* operator /(Variable* arg);
 	Variable* toUpDegree(int degree);
 	friend std::ostream& operator<<(std::ostream& os, const Variable* arg);
 };

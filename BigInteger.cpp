@@ -3,28 +3,30 @@ using namespace std;
 BigInteger::BigInteger(string name):Variable(name)
 {
 	setDataType(dataType::BIGINT);
+	cout<<"введите BigInt:";
 }
 
 Variable* BigInteger::operator+(Variable* arg)
 {
-	return nullptr;
+	return this;
 }
 
 Variable* BigInteger::operator*(Variable* arg)
 {
-	return nullptr;
+	return this;
 }
 
 Variable* BigInteger::operator-(Variable* arg)
 {
-	return nullptr;
+	return this;
 }
 
-void BigInteger::operator/(Variable* arg)
+Variable* BigInteger::operator/(Variable* arg)
 {
+	return this;
 }
 
 Variable* BigInteger::toUpDegree(int degree)
 {
-	return nullptr;
+	return this;
 }

@@ -8,7 +8,7 @@ public:
 	Variable* operator +(Variable* arg);
 	Variable* operator *(Variable* arg);
 	Variable* operator -(Variable* arg);
-	void operator /(Variable* arg);
+	Variable* operator /(Variable* arg);
 	Variable* toUpDegree(int degree);
 };
 

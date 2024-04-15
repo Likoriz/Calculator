@@ -12,7 +12,7 @@
 
 using namespace std;
 
-Calculator::Calculator(string str, int mode)
+Calculator::Calculator(string str, dataType mode)
 {
 	expression = str;
 	workingMode = mode;
@@ -62,15 +62,15 @@ void Calculator::Tokenize()
 				} while (++it != expression.end() && (*it >= 'a' && *it <= 'z' || *it >= 'A' && *it <= 'Z'));
 				switch (workingMode)
 				{
-				case (int)dataType::BIGINT:
+				case dataType::BIGINT:
 					tokens.push_back(new BigInteger(name)); break;
-				case (int)dataType::FLOAT:
+				case dataType::FLOAT:
 					tokens.push_back(new Float(name)); break;
-				case (int)dataType::MATRIX:
+				case dataType::MATRIX:
 					tokens.push_back(new Matrix(name)); break;
-				case (int)dataType::IMAGINARY:
+				case dataType::IMAGINARY:
 					tokens.push_back(new Imaginary(name)); break;
-				case (int)dataType::FRACTION:
+				case dataType::FRACTION:
 					tokens.push_back(new Fraction(name)); break;
 				}
 			}
@@ -81,6 +81,7 @@ void Calculator::Tokenize()
 	{
 		(*it)->printYourType();
 	}
+	cout<<endl;
 }
 
 
@@ -92,4 +93,9 @@ void Calculator::turnToRPN()
 void Calculator::calculateRPN()
 {
 
+}
+
+std::vector <Token*> Calculator::getTokens()
+{
+	return tokens;
 }

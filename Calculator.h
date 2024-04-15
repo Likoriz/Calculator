@@ -7,14 +7,15 @@
 class Calculator
 {
 private:
-	int workingMode;
+	dataType workingMode;
 	std::vector <Token*> tokens;
 	std::string expression;
 public:
-	Calculator(std::string str, int mode);
+	Calculator(std::string str, dataType mode);
 	~Calculator();
 	void Tokenize();
 	void turnToRPN();
 	void calculateRPN();
+	std::vector <Token*> getTokens();
 };
 
