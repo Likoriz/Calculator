@@ -13,7 +13,7 @@ Matrix::Matrix(string name) : Variable(name)
 
 	cout << "Введите построчно матрицу: " << endl;
 
-	elements.resize(rows, std::vector<float>(cols, 0));
+	elements.resize(rows, vector<float>(cols, 0));
 
 	for (int i = 0; i < rows; i++)
 		for (int j = 0; j < cols; j++)
@@ -29,7 +29,7 @@ Matrix::Matrix(int rows_, int cols_)
 	rows = rows_;
 	cols = cols_;
 
-	elements.resize(rows, std::vector<float>(cols, 0));
+	elements.resize(rows, vector<float>(cols, 0));
 }
 
 Variable* Matrix::operator+(Variable* arg)
@@ -38,15 +38,15 @@ Variable* Matrix::operator+(Variable* arg)
 
 	if (rows == m->rows && cols == m->cols)
 	{
-		Variable* result = new Matrix(m->rows, m->cols);
+		Matrix* result = new Matrix(m->rows, m->cols);
 		for (int i = 0; i < rows; i++)
 			for (int j = 0; j < cols; j++)
-				dynamic_cast<Matrix*>(result)->elements[i][j] = elements[i][j] + m->elements[i][j];
+				result->elements[i][j] = elements[i][j] + m->elements[i][j];
 
 		return result;
 	}
-
-	return nullptr;
+	else
+		throw exception("Матрицы имеют разные размеры!");
 }
 
 Variable* Matrix::operator*(Variable* arg)
@@ -55,16 +55,16 @@ Variable* Matrix::operator*(Variable* arg)
 
 	if (cols == m->rows)
 	{
-		Variable* result = new Matrix(rows, m->cols);
+		Matrix* result = new Matrix(rows, m->cols);
 		for (int i = 0; i < rows; i++)
 			for (int j = 0; j < m->cols; j++)
 				for (int k = 0; k < cols; k++)
-					dynamic_cast<Matrix*>(result)->elements[i][j] += elements[i][k] * m->elements[k][j];
+					result->elements[i][j] += elements[i][k] * m->elements[k][j];
 
 		return result;
 	}
-
-	return nullptr;
+	else
+		throw exception("У матриц не совпадают число столбцов и строк!");
 }
 
 Variable* Matrix::operator-(Variable* arg)
@@ -80,33 +80,34 @@ Variable* Matrix::operator-(Variable* arg)
 
 		return result;
 	}
-
-	return nullptr;
+	else
+		throw exception("Матрицы имеют разные размеры!");
 }
 
 Variable* Matrix::operator/(Variable* arg)
 {
-	throw exception("Деление матриц - это миф.");
+	throw exception("Деления матрицы на матрицу не существует!.");
 }
 
 Variable* Matrix::toUpDegree(int degree)
 {
+	if (degree < 0)
+		throw exception("Нельзя возвести матрицу в отрицательную степень!");
+
+	Matrix* result = new Matrix(rows, cols);
+
 	if (degree == 0)
 	{
-		Variable* result = new Matrix(rows, cols);
 		for (int i = 0; i < rows; i++)
 			for (int j = 0; j < cols; j++)
-				dynamic_cast<Matrix*>(result)->elements[i][j] = (i == j) ? 1 : 0;
+				result->elements[i][j] = (i == j) ? 1 : 0;
 
 		return result;
 	}
 	else if (degree == 1)
-	{
 		return this;
-	}
 	else
 	{
-		Variable* result = new Matrix(rows, cols);
 		Variable* temp = new Matrix(rows, cols);
 		for (int i = 0; i < rows; i++)
 			for (int j = 0; j < cols; j++)
@@ -121,7 +122,7 @@ Variable* Matrix::toUpDegree(int degree)
 
 		for (int i = 0; i < rows; i++)
 			for (int j = 0; j < cols; j++)
-				dynamic_cast<Matrix*>(result)->elements[i][j] = dynamic_cast<Matrix*>(temp)->elements[i][j];
+				result->elements[i][j] = dynamic_cast<Matrix*>(temp)->elements[i][j];
 
 		delete temp;
 		return result;

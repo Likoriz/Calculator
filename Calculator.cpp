@@ -7,7 +7,7 @@
 #include "Matrix.h"
 #include "Float.h"
 #include "Fraction.h"
-#include "Imaginary.h"
+#include "Complex.h"
 #include <algorithm>
 
 using namespace std;
@@ -69,7 +69,7 @@ void Calculator::Tokenize()
 				case dataType::MATRIX:
 					tokens.push_back(new Matrix(name)); break;
 				case dataType::IMAGINARY:
-					tokens.push_back(new Imaginary(name)); break;
+					tokens.push_back(new Complex(name)); break;
 				case dataType::FRACTION:
 					tokens.push_back(new Fraction(name)); break;
 				}

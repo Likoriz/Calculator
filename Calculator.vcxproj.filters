@@ -27,7 +27,7 @@
     <ClCompile Include="Float.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Imaginary.cpp">
+    <ClCompile Include="Complex.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="BigInteger.cpp">
@@ -62,7 +62,7 @@
     <ClInclude Include="Float.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Imaginary.h">
+    <ClInclude Include="Complex.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="BigInteger.h">

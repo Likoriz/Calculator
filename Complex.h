@@ -1,10 +1,14 @@
 #pragma once
 #include "Variable.h"
-class Imaginary :
-    public Variable
+
+class Complex : public Variable
 {
+private:
+	float real;
+	float imaginary;
 public: 
-	Imaginary(std::string name);
+	Complex(std::string name);
+	Complex();
 	Variable* operator +(Variable* arg);
 	Variable* operator *(Variable* arg);
 	Variable* operator -(Variable* arg);

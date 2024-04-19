@@ -1,7 +1,7 @@
-#include "Calculator.h"
 #include <iostream>
-#include "Matrix.h"
-#include "Fraction.h"
+
+#include "Calculator.h"
+#include "Variable.h"
 #include "Operator.h"
 
 using namespace std;
@@ -15,7 +15,7 @@ int main()
 		dataType mode;
 		string str;
 
-		cout << "¬ведите режим работы (0 - float, 1 - fraction, 2 - matrix, 3 - bigint, 4 - imaginary): ";
+		cout << "¬ведите режим работы (0 - float, 1 - fraction, 2 - matrix, 3 - bigint, 4 - complex): ";
 		scanf_s("%d", &mode);
 		cout << "¬ведите пример:";
 		cin >> str;

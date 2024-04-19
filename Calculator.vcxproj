@@ -133,7 +133,7 @@
     <ClCompile Include="Constant.cpp" />
     <ClCompile Include="Float.cpp" />
     <ClCompile Include="Fraction.cpp" />
-    <ClCompile Include="Imaginary.cpp" />
+    <ClCompile Include="Complex.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Operator.cpp" />
@@ -147,7 +147,7 @@
     <ClInclude Include="Constant.h" />
     <ClInclude Include="Float.h" />
     <ClInclude Include="Fraction.h" />
-    <ClInclude Include="Imaginary.h" />
+    <ClInclude Include="Complex.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Operator.h" />
     <ClInclude Include="Variable.h" />
