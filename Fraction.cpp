@@ -1,4 +1,5 @@
 #include "Fraction.h"
+#include "Float.h"
 
 using namespace std;
 
@@ -37,9 +38,39 @@ Variable* Fraction::operator+(Variable* arg)
 	return result;
 }
 
+Variable* Fraction::operator+(Float* arg)
+{
+	const Fraction* f = turnToFraction(arg->getVal());
+	Fraction* result = new Fraction();
+
+	if (denominator == f->denominator)
+	{
+		result->numerator = numerator + f->numerator;
+		result->denominator = denominator;
+	}
+	else
+	{
+		result->numerator = numerator * f->denominator + f->numerator * denominator;
+		result->denominator = denominator * f->denominator;
+	}
+
+	return result;
+}
+
 Variable* Fraction::operator*(Variable* arg)
 {
 	const Fraction* f = dynamic_cast<const Fraction*>(arg);
+	Fraction* result = new Fraction();
+
+	result->numerator = numerator * f->numerator;
+	result->denominator = denominator * f->denominator;
+
+	return result;
+}
+
+Variable* Fraction::operator*(Float* arg)
+{
+	const Fraction* f = turnToFraction(arg->getVal());
 	Fraction* result = new Fraction();
 
 	result->numerator = numerator * f->numerator;
@@ -67,9 +98,42 @@ Variable* Fraction::operator-(Variable* arg)
 	return result;
 }
 
+Variable* Fraction::operator-(Float* arg)
+{
+	const Fraction* f = turnToFraction(arg->getVal());
+	Fraction* result = new Fraction();
+
+	if (denominator == f->denominator)
+	{
+		result->numerator = numerator - f->numerator;
+		result->denominator = denominator;
+	}
+	else
+	{
+		result->numerator = numerator * f->denominator - f->numerator * denominator;
+		result->denominator = denominator * f->denominator;
+	}
+
+	return result;
+}
+
 Variable* Fraction::operator/(Variable* arg)
 {
 	const Fraction* f = dynamic_cast<const Fraction*>(arg);
+	Fraction* result = new Fraction();
+
+	if (f->numerator == 0)
+		throw exception("Делить на нуль нельзя!");
+
+	result->numerator = numerator * f->denominator;
+	result->denominator = denominator * f->numerator;
+
+	return result;
+}
+
+Variable* Fraction::operator/(Float* arg)
+{
+	const Fraction* f = turnToFraction(arg->getVal());
 	Fraction* result = new Fraction();
 
 	if (f->numerator == 0)
@@ -120,10 +184,14 @@ Fraction* Fraction::minimize(Fraction* f)
 	Fraction* result = new Fraction();
 
 	if (f)
-		if (f->numerator >= f->denominator)
+		if (abs(f->numerator) >= f->denominator)
 		{
+			int delimer = LCD(f->numerator, f->denominator);
+			f->numerator /= delimer;
+			f->denominator /= delimer;
+
 			result->integer = f->numerator / f->denominator;
-			result->numerator = f->numerator % f->denominator;
+			result->numerator = abs(f->numerator) % f->denominator;
 			result->denominator = f->denominator;
 		}
 		else
@@ -133,10 +201,14 @@ Fraction* Fraction::minimize(Fraction* f)
 			result->denominator = f->denominator / delimer;
 		}
 	else
-		if (numerator >= denominator)
+		if (abs(numerator) >= denominator)
 		{
+			int delimer = LCD(numerator, denominator);
+			numerator /= delimer;
+			denominator /= delimer;
+
 			result->integer = numerator / denominator;
-			result->numerator = numerator % denominator;
+			result->numerator = abs(numerator) % denominator;
 			result->denominator = denominator;
 		}
 		else
@@ -151,11 +223,38 @@ Fraction* Fraction::minimize(Fraction* f)
 
 int Fraction::LCD(int numerator, int denominator)
 {
-	while (numerator != denominator)
-		if (numerator > denominator)
-			numerator -= denominator;
+	int num = abs(numerator);
+	while (num != denominator)
+		if (num > denominator)
+			num -= denominator;
 		else
-			denominator -= numerator;
+			denominator -= num;
 
-	return numerator;
+	return num;
+}
+
+Fraction* Fraction::turnToFraction(double val)
+{
+	Fraction* f = new Fraction();
+
+	int n = val;
+	double mult = pow(10, 3);
+	double fract = round((val - n) * mult) / mult;
+
+	f->denominator = 1000;
+
+	if (fract == round(fract))
+	{
+		f->integer = n + fract;
+		f->numerator = f->integer * f->denominator;
+	}
+	else
+	{
+		f->integer = n;
+		f->numerator = f->integer * 1000 + fract * 1000;
+	}
+
+	f->integer = 0;
+
+	return f;
 }

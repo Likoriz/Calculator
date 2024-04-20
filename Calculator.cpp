@@ -44,36 +44,36 @@ void Calculator::Tokenize()
 		case '^':
 			tokens.push_back(new Operator(operatorsType::EXP)); break;
 		default:
-			if (*it >= 0 && *it <= 9)
-			{
-				float value = 0;
-				string stringVal;
-				do {
-					stringVal += *it;
-				} while(++it!=expression.end()&&(*it>='0'&&*it<='9'||*it=='.'));
-				value = stof(stringVal);
-				tokens.push_back(new Constant(value));
-			}
-			else if (*it >= 'a' && *it <= 'z' || *it >= 'A' && *it <= 'Z')
-			{
-				string name;
-				do {
-					name += *it;
-				} while (++it != expression.end() && (*it >= 'a' && *it <= 'z' || *it >= 'A' && *it <= 'Z'));
-				switch (workingMode)
+			if (*it >= '0' && *it <= '9')
 				{
-				case dataType::BIGINT:
-					tokens.push_back(new BigInteger(name)); break;
-				case dataType::FLOAT:
-					tokens.push_back(new Float(name)); break;
-				case dataType::MATRIX:
-					tokens.push_back(new Matrix(name)); break;
-				case dataType::IMAGINARY:
-					tokens.push_back(new Complex(name)); break;
-				case dataType::FRACTION:
-					tokens.push_back(new Fraction(name)); break;
+					float value = 0;
+					string stringVal;
+					do {
+						stringVal += *it;
+					} while (++it != expression.end() && (*it >= '0' && *it <= '9' || *it == '.'));
+					value = stof(stringVal);
+					tokens.push_back(new Float(value));
 				}
-			}
+				else if (*it >= 'a' && *it <= 'z' || *it >= 'A' && *it <= 'Z')
+				{
+					string name;
+					do {
+						name += *it;
+					} while (++it != expression.end() && (*it >= 'a' && *it <= 'z' || *it >= 'A' && *it <= 'Z'));
+					switch (workingMode)
+					{
+					case dataType::BIGINT:
+						tokens.push_back(new BigInteger(name)); break;
+					case dataType::FLOAT:
+						tokens.push_back(new Float(name)); break;
+					case dataType::MATRIX:
+						tokens.push_back(new Matrix(name)); break;
+					case dataType::IMAGINARY:
+						tokens.push_back(new Complex(name)); break;
+					case dataType::FRACTION:
+						tokens.push_back(new Fraction(name)); break;
+					}
+				}
 			it--;
 		}
 	}

@@ -1,4 +1,5 @@
 #include "Matrix.h"
+#include "Float.h"
 
 using namespace std;
 
@@ -49,6 +50,18 @@ Variable* Matrix::operator+(Variable* arg)
 		throw exception("Матрицы имеют разные размеры!");
 }
 
+Variable* Matrix::operator+(Float* arg)
+{
+	double f = arg->getVal();
+	Matrix* result = new Matrix(rows, cols);
+
+	for (int i = 0; i < rows; i++)
+		for (int j = 0; j < cols; j++)
+			result->elements[i][j] = elements[i][j] + f;
+
+	return result;
+}
+
 Variable* Matrix::operator*(Variable* arg)
 {
 	const Matrix* m = dynamic_cast<const Matrix*>(arg);
@@ -65,6 +78,18 @@ Variable* Matrix::operator*(Variable* arg)
 	}
 	else
 		throw exception("У матриц не совпадают число столбцов и строк!");
+}
+
+Variable* Matrix::operator*(Float* arg)
+{
+	double f = arg->getVal();
+	Matrix* result = new Matrix(rows, cols);
+
+	for (int i = 0; i < rows; i++)
+		for (int j = 0; j < cols; j++)
+			result->elements[i][j] = elements[i][j] * f;
+
+	return result;
 }
 
 Variable* Matrix::operator-(Variable* arg)
@@ -84,9 +109,36 @@ Variable* Matrix::operator-(Variable* arg)
 		throw exception("Матрицы имеют разные размеры!");
 }
 
+Variable* Matrix::operator-(Float* arg)
+{
+	double f = arg->getVal();
+	Variable* result = new Matrix(rows, cols);
+
+	for (int i = 0; i < rows; i++)
+		for (int j = 0; j < cols; j++)
+			dynamic_cast<Matrix*>(result)->elements[i][j] = elements[i][j] - f;
+
+	return result;
+}
+
 Variable* Matrix::operator/(Variable* arg)
 {
 	throw exception("Деления матрицы на матрицу не существует!.");
+}
+
+Variable* Matrix::operator/(Float* arg)
+{
+	double f = arg->getVal();
+	if (f == 0)
+		throw exception("Делить на нуль нельзя!");
+
+	Variable* result = new Matrix(rows, cols);
+
+	for (int i = 0; i < rows; i++)
+		for (int j = 0; j < cols; j++)
+			dynamic_cast<Matrix*>(result)->elements[i][j] = elements[i][j] / f;
+
+	return result;
 }
 
 Variable* Matrix::toUpDegree(int degree)

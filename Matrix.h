@@ -2,6 +2,8 @@
 #include "Variable.h"
 #include <vector>
 
+class Float;
+
 class Matrix : public Variable
 {
 private:
@@ -12,9 +14,17 @@ public:
 	Matrix(std::string name);
 	Matrix(int rows_, int cols_);
 	Variable* operator+(Variable* arg);
-	Variable* operator *(Variable* arg);
+	Variable* operator+(Float* arg);
+
+	Variable* operator*(Variable* arg);
+	Variable* operator*(Float* arg);
+
 	Variable* operator-(Variable* arg);
-	Variable* operator /(Variable* arg);
+	Variable* operator-(Float* arg);
+
+	Variable* operator/(Variable* arg);
+	Variable* operator/(Float* arg);
+
 	Variable* toUpDegree(int degree);
 	void print(Variable* arg = nullptr);
 };

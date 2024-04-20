@@ -1,6 +1,8 @@
 #include "Float.h"
 #include <iostream>
+
 using namespace std;
+
 Float::Float(std::string name):Variable(name)
 {
 	cout<<"введите Float:";
@@ -8,9 +10,24 @@ Float::Float(std::string name):Variable(name)
 	std::cin>>val;
 }
 
+Float::Float(double value)
+{
+	val = value;
+}
+
+double Float::getVal()
+{
+	return val;
+}
+
 Variable* Float::operator+(Variable* arg)
 {
 	val+=((Float*)arg)->val;
+	return this;
+}
+
+Variable* Float::operator+(Float* arg)
+{
 	return this;
 }
 
@@ -20,15 +37,30 @@ Variable* Float::operator*(Variable* arg)
 	return this;
 }
 
+Variable* Float::operator*(Float* arg)
+{
+	return this;
+}
+
 Variable* Float::operator-(Variable* arg)
 {
 	val-=((Float*)arg)->val;
 	return this;
 }
 
+Variable* Float::operator-(Float* arg)
+{
+	return this;
+}
+
 Variable* Float::operator/(Variable* arg)
 {
 	val/=((Float*)arg)->val;
+	return this;
+}
+
+Variable* Float::operator/(Float* arg)
+{
 	return this;
 }
 

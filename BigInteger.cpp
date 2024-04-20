@@ -1,5 +1,8 @@
 #include "BigInteger.h"
+#include "Float.h"
+
 using namespace std;
+
 BigInteger::BigInteger(string name):Variable(name)
 {
 	setDataType(dataType::BIGINT);
@@ -11,7 +14,17 @@ Variable* BigInteger::operator+(Variable* arg)
 	return this;
 }
 
+Variable* BigInteger::operator+(Float* arg)
+{
+	return this;
+}
+
 Variable* BigInteger::operator*(Variable* arg)
+{
+	return this;
+}
+
+Variable* BigInteger::operator*(Float* arg)
 {
 	return this;
 }
@@ -21,7 +34,17 @@ Variable* BigInteger::operator-(Variable* arg)
 	return this;
 }
 
+Variable* BigInteger::operator-(Float* arg)
+{
+	return this;
+}
+
 Variable* BigInteger::operator/(Variable* arg)
+{
+	return this;
+}
+
+Variable* BigInteger::operator/(Float* arg)
 {
 	return this;
 }

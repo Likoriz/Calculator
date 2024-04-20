@@ -1,6 +1,9 @@
 #pragma once
 #include "Token.h"
 #include <iostream>
+
+class Float;
+
 class Variable:public Token
 {
 private:
@@ -10,9 +13,17 @@ public:
 	Variable(std::string name);
 	Variable();
 	virtual Variable* operator+(Variable* arg)=0;
-	virtual Variable* operator *(Variable* arg)=0;
-	virtual Variable* operator -(Variable* arg)=0;
-	virtual Variable* operator /(Variable* arg)=0;
+	virtual Variable* operator+(Float* arg) = 0;
+
+	virtual Variable* operator*(Variable* arg)=0;
+	virtual Variable* operator*(Float* arg) = 0;
+
+	virtual Variable* operator-(Variable* arg)=0;
+	virtual Variable* operator-(Float* arg) = 0;
+
+	virtual Variable* operator/(Variable* arg)=0;
+	virtual Variable* operator/(Float* arg) = 0;
+
 	virtual Variable* toUpDegree(int degree) = 0;
 	dataType getDataType();
 	void setDataType(dataType type);

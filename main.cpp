@@ -2,6 +2,7 @@
 
 #include "Calculator.h"
 #include "Variable.h"
+#include "Float.h"
 #include "Operator.h"
 
 using namespace std;
@@ -24,7 +25,8 @@ int main()
 		calc->Tokenize();
 
 		Variable* a = (Variable*)calc->getTokens()[0];
-		Variable* b = (Variable*)calc->getTokens()[2];
+		Float* b = (Float*)calc->getTokens()[2];
+		//Variable* b = (Variable*)calc->getTokens()[2];
 
 		switch (dynamic_cast<Operator*>((Operator*)calc->getTokens()[1])->getType())
 		{

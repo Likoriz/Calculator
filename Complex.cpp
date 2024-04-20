@@ -1,4 +1,5 @@
 #include "Complex.h"
+#include "Float.h"
 
 #define PI 3.14
 
@@ -29,6 +30,16 @@ Variable* Complex::operator+(Variable* arg)
 	return result;
 }
 
+Variable* Complex::operator+(Float* arg)
+{
+	Complex* result = new Complex();
+
+	result->real = real + arg->getVal();
+	result->imaginary = imaginary;
+
+	return result;
+}
+
 Variable* Complex::operator*(Variable* arg)
 {
 	const Complex* c = dynamic_cast<const Complex*>(arg);
@@ -37,6 +48,16 @@ Variable* Complex::operator*(Variable* arg)
 
 	result->real = real * c->real - imaginary * c->imaginary;
 	result->imaginary = real * c->imaginary + c->real * imaginary;
+
+	return result;
+}
+
+Variable* Complex::operator*(Float* arg)
+{
+	Complex* result = new Complex();
+
+	result->real = real * arg->getVal();
+	result->imaginary = imaginary * arg->getVal();
 
 	return result;
 }
@@ -53,6 +74,16 @@ Variable* Complex::operator-(Variable* arg)
 	return result;
 }
 
+Variable* Complex::operator-(Float* arg)
+{
+	Complex* result = new Complex();
+
+	result->real = real - arg->getVal();
+	result->imaginary = imaginary;
+
+	return result;
+}
+
 Variable* Complex::operator/(Variable* arg)
 {
 	const Complex* c = dynamic_cast<const Complex*>(arg);
@@ -64,6 +95,19 @@ Variable* Complex::operator/(Variable* arg)
 
 	result->real = (real * c->real + imaginary * c->imaginary) / (c->real * c->real + c->imaginary * c->imaginary);
 	result->imaginary = (c->real * imaginary - real * c->imaginary) / (c->real * c->real + c->imaginary * c->imaginary);
+
+	return result;
+}
+
+Variable* Complex::operator/(Float* arg)
+{
+	if (arg->getVal() == 0)
+		throw exception("Делить на нуль нельзя!");
+
+	Complex* result = new Complex();
+
+	result->real = real / arg->getVal();
+	result->imaginary = imaginary / arg->getVal();
 
 	return result;
 }
