@@ -56,7 +56,7 @@ int main()
 		}
 		case operatorsType::EXP:
 		{
-			a->print(a->toUpDegree(-2));
+			a->print(a->toUpDegree(b));
 			cout << endl;
 		}
 		}

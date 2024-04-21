@@ -112,8 +112,18 @@ Variable* Complex::operator/(Float* arg)
 	return result;
 }
 
-Variable* Complex::toUpDegree(int degree)
+Variable* Complex::toUpDegree(Variable* arg)
 {
+	throw exception("Нельзя возвести комплексное число в степень комплексного числа!");
+}
+
+Variable* Complex::toUpDegree(Float* arg)
+{
+	if (arg->getVal() != round(arg->getVal()))
+		throw exception("Нельзя возвести комплексное число в нецелочисленную степень!");
+
+	int degree = arg->getVal();
+
 	Complex* result = new Complex();
 
 	if (degree == 0)

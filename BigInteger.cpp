@@ -49,7 +49,12 @@ Variable* BigInteger::operator/(Float* arg)
 	return this;
 }
 
-Variable* BigInteger::toUpDegree(int degree)
+Variable* BigInteger::toUpDegree(Variable* arg)
+{
+	return this;
+}
+
+Variable* BigInteger::toUpDegree(Float* arg)
 {
 	return this;
 }

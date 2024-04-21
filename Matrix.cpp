@@ -141,8 +141,18 @@ Variable* Matrix::operator/(Float* arg)
 	return result;
 }
 
-Variable* Matrix::toUpDegree(int degree)
+Variable* Matrix::toUpDegree(Variable* arg)
 {
+	throw exception("Ќельз€ возвести матрицу в степень матрицы!");
+}
+
+Variable* Matrix::toUpDegree(Float* arg)
+{
+	if (arg->getVal() != round(arg->getVal()))
+		throw exception("Ќельз€ возвести матрицу в нецелочисленную степень!");
+
+	int degree = arg->getVal();
+
 	if (degree < 0)
 		throw exception("Ќельз€ возвести матрицу в отрицательную степень!");
 

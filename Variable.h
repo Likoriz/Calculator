@@ -24,7 +24,9 @@ public:
 	virtual Variable* operator/(Variable* arg)=0;
 	virtual Variable* operator/(Float* arg) = 0;
 
-	virtual Variable* toUpDegree(int degree) = 0;
+	virtual Variable* toUpDegree(Variable* arg) = 0;
+	virtual Variable* toUpDegree(Float* arg) = 0;
+	
 	dataType getDataType();
 	void setDataType(dataType type);
 	virtual void print(Variable* arg = nullptr) = 0;

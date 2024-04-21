@@ -64,14 +64,14 @@ Variable* Float::operator/(Float* arg)
 	return this;
 }
 
-std::ostream& operator << (std::ostream& os, const Float& variable)
+Variable* Float::toUpDegree(Variable* arg)
 {
-	return os<<variable.val<<std::endl;
+	return this;
 }
 
-Variable* Float::toUpDegree(int degree)
+Variable* Float::toUpDegree(Float* arg)
 {
-	val=pow(val, degree);
+	val=pow(val, arg->getVal());
 	return this;
 }
 

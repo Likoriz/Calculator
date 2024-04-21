@@ -24,7 +24,9 @@ public:
 	Variable* operator/(Variable* arg);
 	Variable* operator/(Float* arg);
 
-	Variable* toUpDegree(int degree);
+	Variable* toUpDegree(Variable* arg);
+	Variable* toUpDegree(Float* arg);
+
 	void print(Variable* arg = nullptr);
 	Fraction* minimize(Fraction* f = nullptr);
 	int LCD(int numerator, int denominator);

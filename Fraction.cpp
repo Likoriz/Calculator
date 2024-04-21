@@ -145,8 +145,42 @@ Variable* Fraction::operator/(Float* arg)
 	return result;
 }
 
-Variable* Fraction::toUpDegree(int degree)
+Variable* Fraction::toUpDegree(Variable* arg)
 {
+	const Fraction* f = dynamic_cast<const Fraction*>(arg);
+
+	if (abs(f->numerator) >= f->denominator && abs(f->numerator) % f->denominator == 0)
+	{
+		int degree = f->numerator / f->denominator;
+
+		Fraction* result = new Fraction();
+
+		if (degree > -1)
+		{
+			result->numerator = pow(numerator, degree);
+			result->denominator = pow(denominator, degree);
+		}
+		else
+		{
+			result->numerator = pow(denominator, (-1) * degree);
+			result->denominator = pow(numerator, (-1) * degree);
+		}
+
+		return result;
+	}
+	else
+		throw exception("Нельзя возвести дробь в нецелочисленную степень!");
+
+	return this;
+}
+
+Variable* Fraction::toUpDegree(Float* arg)
+{
+	if (arg->getVal() != round(arg->getVal()))
+		throw exception("Нельзя возвести дробь в нецелочисленную степень!");
+
+	int degree = arg->getVal();
+
 	Fraction* result = new Fraction();
 
 	if (degree > -1)
