@@ -18,6 +18,13 @@ Calculator::Calculator(string str, dataType mode)
 	workingMode = mode;
 }
 
+Calculator::Calculator(string path)
+{
+	reader = new JsonReader(path);
+	expression = reader->getExpression();
+	workingMode = reader->getType();
+}
+
 Calculator::~Calculator()
 {
 
@@ -68,11 +75,12 @@ void Calculator::Tokenize()
 						tokens.push_back(new Float(name)); break;
 					case dataType::MATRIX:
 						tokens.push_back(new Matrix(name)); break;
-					case dataType::IMAGINARY:
+					case dataType::COMPLEX:
 						tokens.push_back(new Complex(name)); break;
 					case dataType::FRACTION:
 						tokens.push_back(new Fraction(name)); break;
 					}
+				//tokens.	
 				}
 			it--;
 		}

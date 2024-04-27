@@ -1,6 +1,6 @@
 #pragma once
 enum class tokenType {CONST, VARIABLE, BRACKET, OPERATOR};
-enum class dataType { FLOAT, FRACTION, MATRIX, BIGINT, IMAGINARY };
+enum class dataType { FLOAT, FRACTION, MATRIX, BIGINT, COMPLEX };
 enum class operatorsType { PLUS, MINUS, DIV, MULT, EXP };
 
 class Token

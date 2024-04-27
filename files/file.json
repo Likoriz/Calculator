@@ -1,0 +1,8 @@
+{
+  "type": "float",
+  "expression": "a + b",
+  "variables": {
+    "a": 2.01,
+    "b": 1
+  }
+}

@@ -7,7 +7,7 @@ using namespace std;
 
 Complex::Complex(std::string name) :Variable(name)
 {
-	setDataType(dataType::IMAGINARY);
+	setDataType(dataType::COMPLEX);
 	cout << "¬ведите действительную и мнимую части: ";
 	cin >> real >> imaginary;
 }

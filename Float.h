@@ -8,6 +8,8 @@ private:
 public:
 	Float(std::string name);
 	Float(double value);
+	Float(std::string name, double value);
+
 	double getVal();
 	Variable* operator+(Variable* arg);
 	Variable* operator+(Float* arg);
