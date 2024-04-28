@@ -12,6 +12,7 @@ private:
 public:
 	Fraction(std::string name);
 	Fraction();
+	Fraction(std::string name, int n, int d);
 	Variable* operator+(Variable* arg);
 	Variable* operator+(Float* arg);
 
@@ -24,7 +25,9 @@ public:
 	Variable* operator/(Variable* arg);
 	Variable* operator/(Float* arg);
 
-	Variable* toUpDegree(int degree);
+	Variable* toUpDegree(Variable* arg);
+	Variable* toUpDegree(Float* arg);
+
 	void print(Variable* arg = nullptr);
 	Fraction* minimize(Fraction* f = nullptr);
 	int LCD(int numerator, int denominator);

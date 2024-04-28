@@ -3,12 +3,13 @@
 
 class Float : public Variable
 {
-	friend std::ostream& operator << (std::ostream& os, const Float& variable);
 private:
 	double val;
 public:
 	Float(std::string name);
 	Float(double value);
+	Float(std::string name, double value);
+
 	double getVal();
 	Variable* operator+(Variable* arg);
 	Variable* operator+(Float* arg);
@@ -22,7 +23,9 @@ public:
 	Variable* operator /(Variable* arg);
 	Variable* operator/(Float* arg);
 
-	Variable* toUpDegree(int degree);
+	Variable* toUpDegree(Variable* arg);
+	Variable* toUpDegree(Float* arg);
+
 	void print(Variable* arg = nullptr);
 };
 

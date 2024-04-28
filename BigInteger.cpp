@@ -38,6 +38,12 @@ void BigInteger::remove_leading_zeros() {
 	if(this->_digits.size()==1&&this->_digits[0]==0) this->_is_negative=false;
 }
 
+BigInteger::BigInteger(string name, string bi) : Variable(name, 0)
+{
+	setDataType(dataType::BIGINT);
+	val = bi;
+}
+
 Variable* BigInteger::operator+(Variable* arg)
 {
 	//if(this->_is_negative) {
@@ -92,7 +98,12 @@ Variable* BigInteger::operator/(Float* arg)
 	return this;
 }
 
-Variable* BigInteger::toUpDegree(int degree)
+Variable* BigInteger::toUpDegree(Variable* arg)
+{
+	return this;
+}
+
+Variable* BigInteger::toUpDegree(Float* arg)
 {
 	return this;
 }

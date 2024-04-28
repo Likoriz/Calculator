@@ -14,8 +14,16 @@ using namespace std;
 
 Calculator::Calculator(string str, dataType mode)
 {
+	reader = nullptr;
 	expression = str;
 	workingMode = mode;
+}
+
+Calculator::Calculator(string path)
+{
+	reader = new JsonReader(path);
+	expression = reader->getExpression();
+	workingMode = reader->getType();
 }
 
 Calculator::~Calculator()
@@ -25,6 +33,11 @@ Calculator::~Calculator()
 
 void Calculator::Tokenize()
 {
+	int k = 0;
+	vector<Variable*> v;
+	if (reader)
+		v = reader->getVariables();
+
 	for (auto it = expression.begin(); it != expression.end(); it++)
 	{
 		switch (*it)
@@ -45,21 +58,23 @@ void Calculator::Tokenize()
 			tokens.push_back(new Operator(operatorsType::EXP)); break;
 		default:
 			if (*it >= '0' && *it <= '9')
-				{
-					float value = 0;
-					string stringVal;
-					do {
-						stringVal += *it;
-					} while (++it != expression.end() && (*it >= '0' && *it <= '9' || *it == '.'));
-					value = stof(stringVal);
-					tokens.push_back(new Float(value));
-				}
-				else if (*it >= 'a' && *it <= 'z' || *it >= 'A' && *it <= 'Z')
-				{
-					string name;
-					do {
-						name += *it;
-					} while (++it != expression.end() && (*it >= 'a' && *it <= 'z' || *it >= 'A' && *it <= 'Z'));
+			{
+				float value = 0;
+				string stringVal;
+				do {
+					stringVal += *it;
+				} while (++it != expression.end() && (*it >= '0' && *it <= '9' || *it == '.'));
+				value = stof(stringVal);
+				tokens.push_back(new Float(value));
+			}
+			else if (*it >= 'a' && *it <= 'z' || *it >= 'A' && *it <= 'Z')
+			{
+				string name;
+				do {
+					name += *it;
+				} while (++it != expression.end() && (*it >= 'a' && *it <= 'z' || *it >= 'A' && *it <= 'Z'));
+
+				if (reader == nullptr)
 					switch (workingMode)
 					{
 					case dataType::BIGINT:
@@ -68,20 +83,20 @@ void Calculator::Tokenize()
 						tokens.push_back(new Float(name)); break;
 					case dataType::MATRIX:
 						tokens.push_back(new Matrix(name)); break;
-					case dataType::IMAGINARY:
+					case dataType::COMPLEX:
 						tokens.push_back(new Complex(name)); break;
 					case dataType::FRACTION:
 						tokens.push_back(new Fraction(name)); break;
 					}
+				else
+				{
+					tokens.push_back(v[k]);
+					k++;
 				}
+			}
 			it--;
 		}
 	}
-	//for (auto it = tokens.begin(); it != tokens.end(); it++)
-	//{
-	//	(*it)->printYourType();
-	//}
-	//cout<<endl;
 }
 
 

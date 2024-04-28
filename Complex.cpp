@@ -7,7 +7,7 @@ using namespace std;
 
 Complex::Complex(std::string name) :Variable(name)
 {
-	setDataType(dataType::IMAGINARY);
+	setDataType(dataType::COMPLEX);
 	cout << "Введите действительную и мнимую части: ";
 	cin >> real >> imaginary;
 }
@@ -16,6 +16,13 @@ Complex::Complex()
 {
 	real = 0;
 	imaginary = 0;
+}
+
+Complex::Complex(string name, double r, double i) : Variable(name, 0)
+{
+	setDataType(dataType::COMPLEX);
+	real = r;
+	imaginary = i;
 }
 
 Variable* Complex::operator+(Variable* arg)
@@ -112,8 +119,18 @@ Variable* Complex::operator/(Float* arg)
 	return result;
 }
 
-Variable* Complex::toUpDegree(int degree)
+Variable* Complex::toUpDegree(Variable* arg)
 {
+	throw exception("Нельзя возвести комплексное число в степень комплексного числа!");
+}
+
+Variable* Complex::toUpDegree(Float* arg)
+{
+	if (arg->getVal() != round(arg->getVal()))
+		throw exception("Нельзя возвести комплексное число в нецелочисленную степень!");
+
+	int degree = arg->getVal();
+
 	Complex* result = new Complex();
 
 	if (degree == 0)

@@ -9,12 +9,12 @@ Matrix::Matrix(string name) : Variable(name)
 	cout << "¬ведите кол-во строк и столбцов: " << endl;
 	cin >> rows >> cols;
 
-	if (rows == 0 || cols == 0)
-		throw exception("ћатрица не может быть нулевого размера!");
+	if (rows <= 0 || cols <= 0)
+		throw exception("ћатрица не может быть нулевого или отрицательного размера!");
 
 	cout << "¬ведите построчно матрицу: " << endl;
 
-	elements.resize(rows, vector<float>(cols, 0));
+	elements.resize(rows, vector<double>(cols, 0));
 
 	for (int i = 0; i < rows; i++)
 		for (int j = 0; j < cols; j++)
@@ -30,7 +30,27 @@ Matrix::Matrix(int rows_, int cols_)
 	rows = rows_;
 	cols = cols_;
 
-	elements.resize(rows, vector<float>(cols, 0));
+	if (rows <= 0 || cols <= 0)
+		throw exception("ћатрица не может быть нулевого или отрицательного размера!");
+
+	elements.resize(rows, vector<double>(cols, 0));
+}
+
+Matrix::Matrix(string name, int r, int c, vector<double> e) : Variable(name, 0)
+{
+	setDataType(dataType::MATRIX);
+
+	rows = r;
+	cols = c;
+
+	if (rows <= 0 || cols <= 0)
+		throw exception("ћатрица не может быть нулевого или отрицательного размера!");
+
+	elements.resize(rows, vector<double>(cols, 0));
+
+	for (int i = 0; i < rows; i++)
+		for (int j = 0; j < cols; j++)
+			elements[i][j] = e[i * cols + j];
 }
 
 Variable* Matrix::operator+(Variable* arg)
@@ -141,8 +161,18 @@ Variable* Matrix::operator/(Float* arg)
 	return result;
 }
 
-Variable* Matrix::toUpDegree(int degree)
+Variable* Matrix::toUpDegree(Variable* arg)
 {
+	throw exception("Ќельз€ возвести матрицу в степень матрицы!");
+}
+
+Variable* Matrix::toUpDegree(Float* arg)
+{
+	if (arg->getVal() != round(arg->getVal()))
+		throw exception("Ќельз€ возвести матрицу в нецелочисленную степень!");
+
+	int degree = arg->getVal();
+
 	if (degree < 0)
 		throw exception("Ќельз€ возвести матрицу в отрицательную степень!");
 

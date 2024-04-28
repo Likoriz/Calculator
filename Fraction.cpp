@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Fraction::Fraction(std::string name) :Variable(name)
+Fraction::Fraction(std::string name) : Variable(name)
 {
 	setDataType(dataType::FRACTION);
 	cout << "Введите сначала числитель, затем знаменатель:" << endl;
@@ -11,12 +11,34 @@ Fraction::Fraction(std::string name) :Variable(name)
 
 	if (denominator == 0)
 		throw exception("Делить на нуль нельзя!");
+
+	if (denominator < 0)
+	{
+		numerator *= -1;
+		denominator *= -1;
+	}
 }
 
 Fraction::Fraction()
 {
 	numerator = 0;
 	denominator = 0;
+}
+
+Fraction::Fraction(string name, int n, int d) : Variable(name, 0)
+{
+	setDataType(dataType::FRACTION);
+	numerator = n;
+	denominator = d;
+
+	if (denominator == 0)
+		throw exception("Делить на нуль нельзя!");
+
+	if (denominator < 0)
+	{
+		numerator *= -1;
+		denominator *= -1;
+	}
 }
 
 Variable* Fraction::operator+(Variable* arg)
@@ -33,6 +55,12 @@ Variable* Fraction::operator+(Variable* arg)
 	{
 		result->numerator = numerator * f->denominator + f->numerator * denominator;
 		result->denominator = denominator * f->denominator;
+	}
+
+	if (result->denominator < 0)
+	{
+		result->numerator *= -1;
+		result->denominator *= -1;
 	}
 
 	return result;
@@ -54,6 +82,12 @@ Variable* Fraction::operator+(Float* arg)
 		result->denominator = denominator * f->denominator;
 	}
 
+	if (result->denominator < 0)
+	{
+		result->numerator *= -1;
+		result->denominator *= -1;
+	}
+
 	return result;
 }
 
@@ -65,6 +99,12 @@ Variable* Fraction::operator*(Variable* arg)
 	result->numerator = numerator * f->numerator;
 	result->denominator = denominator * f->denominator;
 
+	if (result->denominator < 0)
+	{
+		result->numerator *= -1;
+		result->denominator *= -1;
+	}
+
 	return result;
 }
 
@@ -75,6 +115,12 @@ Variable* Fraction::operator*(Float* arg)
 
 	result->numerator = numerator * f->numerator;
 	result->denominator = denominator * f->denominator;
+
+	if (result->denominator < 0)
+	{
+		result->numerator *= -1;
+		result->denominator *= -1;
+	}
 
 	return result;
 }
@@ -93,6 +139,12 @@ Variable* Fraction::operator-(Variable* arg)
 	{
 		result->numerator = numerator * f->denominator - f->numerator * denominator;
 		result->denominator = denominator * f->denominator;
+	}
+
+	if (result->denominator < 0)
+	{
+		result->numerator *= -1;
+		result->denominator *= -1;
 	}
 
 	return result;
@@ -114,6 +166,12 @@ Variable* Fraction::operator-(Float* arg)
 		result->denominator = denominator * f->denominator;
 	}
 
+	if (result->denominator < 0)
+	{
+		result->numerator *= -1;
+		result->denominator *= -1;
+	}
+
 	return result;
 }
 
@@ -127,6 +185,12 @@ Variable* Fraction::operator/(Variable* arg)
 
 	result->numerator = numerator * f->denominator;
 	result->denominator = denominator * f->numerator;
+
+	if (result->denominator < 0)
+	{
+		result->numerator *= -1;
+		result->denominator *= -1;
+	}
 
 	return result;
 }
@@ -142,11 +206,57 @@ Variable* Fraction::operator/(Float* arg)
 	result->numerator = numerator * f->denominator;
 	result->denominator = denominator * f->numerator;
 
+	if (result->denominator < 0)
+	{
+		result->numerator *= -1;
+		result->denominator *= -1;
+	}
+
 	return result;
 }
 
-Variable* Fraction::toUpDegree(int degree)
+Variable* Fraction::toUpDegree(Variable* arg)
 {
+	const Fraction* f = dynamic_cast<const Fraction*>(arg);
+
+	if (abs(f->numerator) >= f->denominator && abs(f->numerator) % f->denominator == 0)
+	{
+		int degree = f->numerator / f->denominator;
+
+		Fraction* result = new Fraction();
+
+		if (degree > -1)
+		{
+			result->numerator = pow(numerator, degree);
+			result->denominator = pow(denominator, degree);
+		}
+		else
+		{
+			result->numerator = pow(denominator, (-1) * degree);
+			result->denominator = pow(numerator, (-1) * degree);
+		}
+
+		if (result->denominator < 0)
+		{
+			result->numerator *= -1;
+			result->denominator *= -1;
+		}
+
+		return result;
+	}
+	else
+		throw exception("Нельзя возвести дробь в нецелочисленную степень!");
+
+	return this;
+}
+
+Variable* Fraction::toUpDegree(Float* arg)
+{
+	if (arg->getVal() != round(arg->getVal()))
+		throw exception("Нельзя возвести дробь в нецелочисленную степень!");
+
+	int degree = arg->getVal();
+
 	Fraction* result = new Fraction();
 
 	if (degree > -1)
@@ -158,6 +268,12 @@ Variable* Fraction::toUpDegree(int degree)
 	{
 		result->numerator = pow(denominator, (-1) * degree);
 		result->denominator = pow(numerator, (-1) * degree);
+	}
+
+	if (result->denominator < 0)
+	{
+		result->numerator *= -1;
+		result->denominator *= -1;
 	}
 
 	return result;
