@@ -12,6 +12,7 @@ private:
 public:
 	Fraction(std::string name);
 	Fraction();
+	Fraction(std::string name, int n, int d);
 	Variable* operator+(Variable* arg);
 	Variable* operator+(Float* arg);
 

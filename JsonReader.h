@@ -21,6 +21,7 @@ private:
 	std::vector<Variable*> variables;
 public:
 	JsonReader(std::string path);
+	~JsonReader();
 	dataType getType();
 	std::string getExpression();
 	std::vector<Variable*> getVariables();

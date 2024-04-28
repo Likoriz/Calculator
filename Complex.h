@@ -6,11 +6,12 @@ class Float;
 class Complex : public Variable
 {
 private:
-	float real;
-	float imaginary;
+	double real;
+	double imaginary;
 public: 
 	Complex(std::string name);
 	Complex();
+	Complex(std::string name, double r, double i);
 	Variable* operator+(Variable* arg);
 	Variable* operator+(Float* arg);
 

@@ -15,7 +15,7 @@ Float::Float(double value)
 	val = value;
 }
 
-Float::Float(string name, double value) :Variable(name)
+Float::Float(string name, double value) :Variable(name, 0)
 {
 	setDataType(dataType::FLOAT);
 	val = value;

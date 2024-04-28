@@ -18,6 +18,13 @@ Complex::Complex()
 	imaginary = 0;
 }
 
+Complex::Complex(string name, double r, double i) : Variable(name, 0)
+{
+	setDataType(dataType::COMPLEX);
+	real = r;
+	imaginary = i;
+}
+
 Variable* Complex::operator+(Variable* arg)
 {
 	const Complex* c = dynamic_cast<const Complex*>(arg);

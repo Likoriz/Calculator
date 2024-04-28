@@ -12,6 +12,7 @@ private:
 public:
 	Variable(std::string name);
 	Variable();
+	Variable(std::string name, int i);
 	virtual Variable* operator+(Variable* arg)=0;
 	virtual Variable* operator+(Float* arg) = 0;
 

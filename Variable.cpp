@@ -21,3 +21,9 @@ Variable::Variable(std::string name)
 	nameOfVariable=name;
 	std::cout<<"¬ведите значение переменной "<<name<<" в следующем виде: ";
 }
+
+Variable::Variable(string name, int i)
+{
+	setTokenType(tokenType::VARIABLE);
+	nameOfVariable = name;
+}

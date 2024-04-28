@@ -9,6 +9,12 @@ BigInteger::BigInteger(string name):Variable(name)
 	cout<<"введите BigInt:";
 }
 
+BigInteger::BigInteger(string name, string bi) : Variable(name, 0)
+{
+	setDataType(dataType::BIGINT);
+	val = bi;
+}
+
 Variable* BigInteger::operator+(Variable* arg)
 {
 	return this;
