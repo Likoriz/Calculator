@@ -34,6 +34,7 @@ Variable* Float::operator+(Variable* arg)
 
 Variable* Float::operator+(Float* arg)
 {
+	val+=arg->val;
 	return this;
 }
 
@@ -45,6 +46,7 @@ Variable* Float::operator*(Variable* arg)
 
 Variable* Float::operator*(Float* arg)
 {
+	val*=arg->val;
 	return this;
 }
 
@@ -56,22 +58,33 @@ Variable* Float::operator-(Variable* arg)
 
 Variable* Float::operator-(Float* arg)
 {
+	val-=arg->val;
 	return this;
 }
 
 Variable* Float::operator/(Variable* arg)
 {
+	if(((Float*)arg)->getVal()==0)
+	{
+		throw exception("Деление на нуль не определено");
+	}
 	val/=((Float*)arg)->val;
 	return this;
 }
 
 Variable* Float::operator/(Float* arg)
 {
+	if(arg->getVal()==0)
+	{
+		throw exception("Деление на нуль не определено");
+	}
+	val/=arg->val;
 	return this;
 }
 
 Variable* Float::toUpDegree(Variable* arg)
 {
+	val=pow(val, ((Float*)arg)->val);
 	return this;
 }
 

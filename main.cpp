@@ -8,7 +8,7 @@
 
 #include <nlohmann/json.hpp>
 #include <fstream>
-using json = nlohmann::json;
+using json=nlohmann::json;
 
 using namespace std;
 
@@ -17,132 +17,135 @@ int main()
 	system("chcp 1251");
 
 	int choice;
-
-	cout << "Считать из файла (1) или ввести вручную (2)? ";
-	cin >> choice;
-
-	switch (choice)
+	while (true)
 	{
-	case 1:
-	{
-		try
+		cout << "Считать из файла (1) или ввести вручную (2)? ";
+		cin >> choice;
+
+		switch (choice)
 		{
-			string path;
-
-			cout << "Введите путь к файлу: ";
-			cin >> path;
-
-			Calculator* calc = new Calculator(path);
-			calc->Tokenize();
-
-			Variable* a = (Variable*)calc->getTokens()[0];
-			//Float* b = (Float*)calc->getTokens()[2];
-			Variable* b = (Variable*)calc->getTokens()[2];
-
-			switch (dynamic_cast<Operator*>((Operator*)calc->getTokens()[1])->getType())
-			{
-			case operatorsType::PLUS:
-			{
-				a->print(a->operator+(b));
-				cout << endl;
-				break;
-			}
-			case operatorsType::MINUS:
-			{
-				a->print(a->operator-(b));
-				cout << endl;
-				break;
-			}
-			case operatorsType::DIV:
-			{
-				a->print(a->operator/(b));
-				cout << endl;
-				break;
-			}
-			case operatorsType::MULT:
-			{
-				a->print(a->operator*(b));
-				cout << endl;
-				break;
-			}
-			case operatorsType::EXP:
-			{
-				a->print(a->toUpDegree(b));
-				cout << endl;
-			}
-			}
-		}
-		catch (exception& e)
+		case 1:
 		{
-			cout << e.what() << endl;
-		}
+			try
+			{
+				string path;
 
-		break;
-	}
-	case 2:
-	{
-		try
+				cout << "Введите путь к файлу: ";
+				cin >> path;
+
+				Calculator* calc=new Calculator(path);
+				calc->Tokenize();
+
+				Variable* a=(Variable*)calc->getTokens()[0];
+				//Float* b = (Float*)calc->getTokens()[2];
+				Variable* b=(Variable*)calc->getTokens()[2];
+
+				switch (dynamic_cast<Operator*>((Operator*)calc->getTokens()[1])->getType())
+				{
+				case operatorsType::PLUS:
+				{
+					a->print(a->operator+(b));
+					cout << endl;
+					break;
+				}
+				case operatorsType::MINUS:
+				{
+					a->print(a->operator-(b));
+					cout << endl;
+					break;
+				}
+				case operatorsType::DIV:
+				{
+					a->print(a->operator/(b));
+					cout << endl;
+					break;
+				}
+				case operatorsType::MULT:
+				{
+					a->print(a->operator*(b));
+					cout << endl;
+					break;
+				}
+				case operatorsType::EXP:
+				{
+					a->print(a->toUpDegree(b));
+					cout << endl;
+				}
+				}
+			}
+			catch (exception& e)
+			{
+				cout << e.what() << endl;
+			}
+
+			break;
+		}
+		case 2:
 		{
-			dataType mode;
-			string str;
+			try
+			{
+				dataType mode;
+				string str;
 
-			cout << "Введите режим работы (0 - float, 1 - fraction, 2 - matrix, 3 - bigint, 4 - complex): ";
-			scanf_s("%d", &mode);
-			cout << "Введите пример:";
-			cin >> str;
-			Calculator* calc = new Calculator(str, mode);
+				cout << "Введите режим работы (0 - float, 1 - fraction, 2 - matrix, 3 - bigint, 4 - complex): ";
+				scanf_s("%d", &mode);
+				cout << "Введите пример:";
+				cin >> str;
+				Calculator* calc=new Calculator(str, mode);
 
-			calc->Tokenize();
+				calc->Tokenize();
 
-			Variable* a = (Variable*)calc->getTokens()[0];
-			//Float* b = (Float*)calc->getTokens()[2];
-			Variable* b = (Variable*)calc->getTokens()[2];
+				Variable* a=(Variable*)calc->getTokens()[0];
+				//Float* b = (Float*)calc->getTokens()[2];
+				Variable* b=(Variable*)calc->getTokens()[2];
 
-			switch (dynamic_cast<Operator*>((Operator*)calc->getTokens()[1])->getType())
-			{
-			case operatorsType::PLUS:
-			{
-				a->print(a->operator+(b));
-				cout << endl;
-				break;
+				switch (dynamic_cast<Operator*>((Operator*)calc->getTokens()[1])->getType())
+				{
+				case operatorsType::PLUS:
+				{
+					a->print(a->operator+(b));
+					cout << endl;
+					break;
+				}
+				case operatorsType::MINUS:
+				{
+					a->print(a->operator-(b));
+					cout << endl;
+					break;
+				}
+				case operatorsType::DIV:
+				{
+					a->print(a->operator/(b));
+					cout << endl;
+					break;
+				}
+				case operatorsType::MULT:
+				{
+					a->print(a->operator*(b));
+					cout << endl;
+					break;
+				}
+				case operatorsType::EXP:
+				{
+					a->print(a->toUpDegree(b));
+					cout << endl;
+				}
+				}
 			}
-			case operatorsType::MINUS:
+			catch (exception& e)
 			{
-				a->print(a->operator-(b));
-				cout << endl;
-				break;
+				cout << e.what() << endl;
 			}
-			case operatorsType::DIV:
+			catch (...)
 			{
-				a->print(a->operator/(b));
-				cout << endl;
-				break;
+				cout << "Wut?" << endl;
 			}
-			case operatorsType::MULT:
-			{
-				a->print(a->operator*(b));
-				cout << endl;
-				break;
-			}
-			case operatorsType::EXP:
-			{
-				a->print(a->toUpDegree(b));
-				cout << endl;
-			}
-			}
+
+			break;
 		}
-		catch (exception& e)
-		{
-			cout << e.what() << endl;
+		default:
+			cout << "Такой опции нет!" << endl;
 		}
-		catch (...)
-		{
-			cout << "Wut?" << endl;
-		}
-
-		break;
-	}
-	default:
-		cout << "Такой опции нет!" << endl;
+		printf("\n\n\n");
 	}
 }

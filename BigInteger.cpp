@@ -3,63 +3,59 @@
 
 using namespace std;
 
-BigInteger::BigInteger(string name):Variable(name)
+BigInteger::BigInteger(string name) :Variable(name)
 {
 	setDataType(dataType::BIGINT);
-	cout<<"введите BigInt:";
+	cout << "введите BigInt:";
 	string str;
-	cin>>str;
-	if(str.length()==0) {
-		// из пустой строки создается ноль
-		this->_is_negative=false;
+	cin >> str;
+	BigInteger(name, str);
+}
+BigInteger::BigInteger(string name, string bi) : Variable(name, 0)
+{
+	if (bi.length() == 0) {
+		is_negative=false;
 	}
 	else {
-		if(str[0]=='-') {
-			str=str.substr(1);
-			this->_is_negative=true;
+		if (bi[0] == '-') {
+			bi=bi.substr(1);
+			is_negative=true;
 		}
 		else {
-			this->_is_negative=false;
+			is_negative=false;
 		}
-		for(unsigned long long i=str.length(); i>0; i-=9) {
-			if(i<9)
-				this->_digits.push_back(atoi(str.substr(0, i).c_str()));
+		for (unsigned long long i=bi.length(); i > 0; i-=9) {
+			if (i < 9)
+				digits.push_back(atoi(bi.substr(0, i).c_str()));
 			else
-				this->_digits.push_back(atoi(str.substr(i-9, 9).c_str()));
+				digits.push_back(atoi(bi.substr(i - 9, 9).c_str()));
 		}
-		this->remove_leading_zeros();
+		remove_leading_zeros();
 	}
 }
 
 void BigInteger::remove_leading_zeros() {
-	while(this->_digits.size()>1&&this->_digits.back()==0) {
-		this->_digits.pop_back();
+	while (digits.size() > 1 && digits.back() == 0) {
+		digits.pop_back();
 	}
-	if(this->_digits.size()==1&&this->_digits[0]==0) this->_is_negative=false;
-}
-
-BigInteger::BigInteger(string name, string bi) : Variable(name, 0)
-{
-	setDataType(dataType::BIGINT);
-	val = bi;
+	if (digits.size() == 1 && digits[0] == 0) is_negative=false;
 }
 
 Variable* BigInteger::operator+(Variable* arg)
 {
-	//if(this->_is_negative) {
-	//	if((BigInteger*)arg->_is_negative) return -(-*this+(-right));
-	//	else return right-(-left);
+	//BigInteger* tmpArg=(BigInteger*)arg;
+	//if (is_negative) {
+	//	if (this->is_negative) return -(-*this + (-*tmpArg));
+	//	else return *tmpArg - (-*this);
 	//}
-	//else if(right._is_negative) return left-(-right);
+	//else if (tmpArg->is_negative) return *this - (-*tmpArg);
 	//int carry=0; // флаг переноса из предыдущего разряда
-	//for(size_t i=0; i<std::max(left._digits.size(), right._digits.size())||carry!=0; ++i) {
-	//	if(i==left._digits.size()) left._digits.push_back(0);
-	//	left._digits[i]+=carry+(i<right._digits.size()?right._digits[i]:0);
-	//	carry=left._digits[i]>=big_integer::BASE;
-	//	if(carry!=0) left._digits[i]-=big_integer::BASE;
+	//for (size_t i=0; i < std::max(this->digits.size(), tmpArg->digits.size()) || carry != 0; ++i) {
+	//	if (i == this->digits.size()) this->digits.push_back(0);
+	//	this->digits[i]+=carry + (i < tmpArg->digits.size() ? tmpArg->digits[i] : 0);
+	//	carry=this->digits[i] >= BigInteger::BASE;
+	//	if (carry != 0) this->digits[i]-=BigInteger::BASE;
 	//}
-
-	
 	return this;
 }
 

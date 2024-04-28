@@ -7,10 +7,8 @@ class BigInteger : public Variable
 {
 private:
 	int BASE=1000000000;
-	std::vector<int> _digits;
-	bool _is_negative;
-private:
-	std::string val;
+	std::vector<int> digits;
+	bool is_negative;
 public: 
 	BigInteger(std::string name);
 	BigInteger(std::string name, std::string bi);
