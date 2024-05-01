@@ -30,7 +30,7 @@ public:
 
 	void print(Variable* arg = nullptr);
 	Fraction* minimize(Fraction* f = nullptr);
-	int LCD(int numerator, int denominator);
+	static int LCD(int numerator, int denominator);
 	Fraction* turnToFraction(double val);
 };
 

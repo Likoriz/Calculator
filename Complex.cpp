@@ -1,6 +1,8 @@
 #include "Complex.h"
 #include "Float.h"
 
+#include "Exceptions.h"
+
 #define PI 3.14
 
 using namespace std;
@@ -9,7 +11,10 @@ Complex::Complex(std::string name) :Variable(name)
 {
 	setDataType(dataType::COMPLEX);
 	cout << "Введите действительную и мнимую части: ";
+
 	cin >> real >> imaginary;
+	if (cin.fail())
+		throw Exceptions(FORMAT::IVALID_FORMAT);
 }
 
 Complex::Complex()
@@ -96,7 +101,7 @@ Variable* Complex::operator/(Variable* arg)
 	const Complex* c = dynamic_cast<const Complex*>(arg);
 
 	if (c->real == 0 && c->imaginary == 0)
-		throw exception("Делить на нуль нельзя!");
+		throw Exceptions(COMPUTE::DIVISION_BY_ZERO);
 
 	Complex* result = new Complex();
 
@@ -109,7 +114,7 @@ Variable* Complex::operator/(Variable* arg)
 Variable* Complex::operator/(Float* arg)
 {
 	if (arg->getVal() == 0)
-		throw exception("Делить на нуль нельзя!");
+		throw Exceptions(COMPUTE::DIVISION_BY_ZERO);
 
 	Complex* result = new Complex();
 
@@ -121,13 +126,13 @@ Variable* Complex::operator/(Float* arg)
 
 Variable* Complex::toUpDegree(Variable* arg)
 {
-	throw exception("Нельзя возвести комплексное число в степень комплексного числа!");
+	throw Exceptions(COMPUTE::COMPLEX_POW_COMPLEX);
 }
 
 Variable* Complex::toUpDegree(Float* arg)
 {
 	if (arg->getVal() != round(arg->getVal()))
-		throw exception("Нельзя возвести комплексное число в нецелочисленную степень!");
+		throw Exceptions(FORMAT::INVALID_POW);
 
 	int degree = arg->getVal();
 
@@ -143,7 +148,7 @@ Variable* Complex::toUpDegree(Float* arg)
 	else
 	{
 		if (real == 0)
-			throw exception("Делить на нуль нельзя!");
+			throw Exceptions(COMPUTE::DIVISION_BY_ZERO);
 
 		float r = sqrt(real * real + imaginary * imaginary);
 

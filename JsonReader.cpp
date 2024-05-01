@@ -8,6 +8,8 @@
 #include "Matrix.h"
 #include "Complex.h"
 
+#include "Exceptions.h"
+
 using namespace std;
 using json = nlohmann::json;
 
@@ -16,7 +18,7 @@ JsonReader::JsonReader(string path)
 	ifstream f(path);
 
 	if (f.fail())
-		throw exception("Отсутствует файл или неправильное имя файла!");
+		throw Exceptions(JSON::INVALID_FILENAME);
 
 	try
 	{
@@ -27,20 +29,20 @@ JsonReader::JsonReader(string path)
 			if (data["type"].is_string())
 				type = data["type"];
 			else
-				throw  exception("Тип данных не является строкой!");
+				throw Exceptions(JSON::NOT_STRING_VALUE);
 		}
 		else
-			throw exception("Отсутствует тип данных!");
+			throw Exceptions(JSON::ABSENT_VALUE);
 
 		if (data.find("expression") != data.end())
 		{
 			if (data["expression"].is_string())
 				expression = data["expression"];
 			else
-				throw exception("Выражение не является строкой!");
+				throw Exceptions(JSON::NOT_STRING_VALUE);
 		}
 		else
-			throw exception("Отсутствует выражение!");
+			throw Exceptions(JSON::ABSENT_VALUE);
 
 		if (data.find("variables") != data.end())
 		{
@@ -59,15 +61,15 @@ JsonReader::JsonReader(string path)
 						{
 							vector<double> e = vdata["elements"];
 							if (s[0] * s[1] != e.size())
-								throw exception("Неверные размеры матрицы!");
+								throw Exceptions(JSON::INVALID_VALUE);
 
 							variables.push_back(new Matrix(vname, s[0], s[1], e));
 						}
 						else
-							throw exception("Отсутствуют элементы матрицы!");
+							throw Exceptions(JSON::ABSENT_VALUE);
 					}
 					else
-						throw exception("Отсутствуют размеры матрицы!");
+						throw Exceptions(JSON::ABSENT_VALUE);
 				}
 			}
 			else
@@ -79,28 +81,33 @@ JsonReader::JsonReader(string path)
 					else if (type == "fraction")
 					{
 						vector<int> f = it.value();
-						variables.push_back(new Fraction(it.key(), f[0], f[1]));
+						if (f.size() != 2)
+							throw Exceptions(JSON::INVALID_VALUE);
+						else
+							variables.push_back(new Fraction(it.key(), f[0], f[1]));
 					}
 					else if (type == "bigint")
 					{
 						if (it.value().is_string())
 							variables.push_back(new BigInteger(it.key(), it.value()));
 						else
-							throw exception("Значение не является строкой!");
+							throw Exceptions(JSON::NOT_STRING_VALUE);
 					}
 					else if (type == "complex")
 					{
 						vector<double> c = it.value();
+						if (c.size() != 2)
+							throw Exceptions(JSON::INVALID_VALUE);
 						variables.push_back(new Complex(it.key(), c[0], c[1]));
 					}
 					else
-						throw exception("Неизвестный тип данных!");
+						throw Exceptions(JSON::UNKNOWN_TYPE);
 		}
 	}
 	catch (const json::parse_error& e)
 	{
 		cout << e.what() << endl;
-		throw exception("Ошибка при чтении JSON - файла!");
+		throw Exceptions(JSON::PARSE_ERROR);
 	}
 }
 
@@ -122,7 +129,7 @@ dataType JsonReader::getType()
 	else if (type == "complex")
 		return dataType::COMPLEX;
 	else
-		throw exception("Отсутствует тип калькулятора!");
+		throw Exceptions(JSON::ABSENT_VALUE);
 }
 
 string JsonReader::getExpression()

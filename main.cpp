@@ -5,10 +5,12 @@
 #include "Float.h"
 #include "Operator.h"
 #include "JsonReader.h"
+#include "Exceptions.h"
 
 #include <nlohmann/json.hpp>
 #include <fstream>
-using json=nlohmann::json;
+
+using json = nlohmann::json;
 
 using namespace std;
 
@@ -17,28 +19,33 @@ int main()
 	system("chcp 1251");
 
 	int choice;
-	while (true)
-	{
-		cout << "Считать из файла (1) или ввести вручную (2)? ";
-		cin >> choice;
 
-		switch (choice)
+	try
+	{
+		while (true)
 		{
-		case 1:
-		{
-			try
+			cout << "Считать из файла (1) или ввести вручную (2)? ";
+			cin >> choice;
+			if (cin.fail())
+				throw Exceptions(FORMAT::IVALID_FORMAT);
+
+			switch (choice)
+			{
+			case 1:
 			{
 				string path;
 
 				cout << "Введите путь к файлу: ";
 				cin >> path;
+				if (cin.fail())
+					throw Exceptions(FORMAT::IVALID_FORMAT);
 
-				Calculator* calc=new Calculator(path);
+				Calculator* calc = new Calculator(path);
 				calc->Tokenize();
 
-				Variable* a=(Variable*)calc->getTokens()[0];
+				Variable* a = (Variable*)calc->getTokens()[0];
 				//Float* b = (Float*)calc->getTokens()[2];
-				Variable* b=(Variable*)calc->getTokens()[2];
+				Variable* b = (Variable*)calc->getTokens()[2];
 
 				switch (dynamic_cast<Operator*>((Operator*)calc->getTokens()[1])->getType())
 				{
@@ -72,32 +79,31 @@ int main()
 					cout << endl;
 				}
 				}
-			}
-			catch (exception& e)
-			{
-				cout << e.what() << endl;
-			}
 
-			break;
-		}
-		case 2:
-		{
-			try
+				break;
+			}
+			case 2:
 			{
 				dataType mode;
 				string str;
 
 				cout << "Введите режим работы (0 - float, 1 - fraction, 2 - matrix, 3 - bigint, 4 - complex): ";
 				scanf_s("%d", &mode);
+				if (!(mode == dataType::FLOAT || mode == dataType::BIGINT || mode == dataType::COMPLEX || mode == dataType::FRACTION || mode == dataType::MATRIX))
+					throw Exceptions(FORMAT::IVALID_FORMAT);
+
 				cout << "Введите пример:";
 				cin >> str;
-				Calculator* calc=new Calculator(str, mode);
+				if (cin.fail())
+					throw Exceptions(FORMAT::IVALID_FORMAT);
+
+				Calculator* calc = new Calculator(str, mode);
 
 				calc->Tokenize();
 
-				Variable* a=(Variable*)calc->getTokens()[0];
+				Variable* a = (Variable*)calc->getTokens()[0];
 				//Float* b = (Float*)calc->getTokens()[2];
-				Variable* b=(Variable*)calc->getTokens()[2];
+				Variable* b = (Variable*)calc->getTokens()[2];
 
 				switch (dynamic_cast<Operator*>((Operator*)calc->getTokens()[1])->getType())
 				{
@@ -131,21 +137,22 @@ int main()
 					cout << endl;
 				}
 				}
+
+				break;
 			}
-			catch (exception& e)
-			{
-				cout << e.what() << endl;
-			}
-			catch (...)
-			{
-				cout << "Wut?" << endl;
+			default:
+				cout << "Такой опции нет!" << endl;
 			}
 
-			break;
+			cout << endl << endl << endl;
 		}
-		default:
-			cout << "Такой опции нет!" << endl;
-		}
-		printf("\n\n\n");
+	}
+	catch (Exceptions& e)
+	{
+		cout << "Во время выполнения программы возникла ошибка: " << e.what() << endl;
+	}
+	catch (...)
+	{
+		cout << "wut?" << endl;
 	}
 }

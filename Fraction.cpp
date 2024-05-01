@@ -1,16 +1,21 @@
 #include "Fraction.h"
 #include "Float.h"
 
+#include "Exceptions.h"
+
 using namespace std;
 
 Fraction::Fraction(std::string name) : Variable(name)
 {
 	setDataType(dataType::FRACTION);
 	cout << "Введите сначала числитель, затем знаменатель:" << endl;
+
 	cin >> numerator >> denominator;
+	if (cin.fail())
+		throw Exceptions(FORMAT::IVALID_FORMAT);
 
 	if (denominator == 0)
-		throw exception("Делить на нуль нельзя!");
+		throw Exceptions(COMPUTE::DIVISION_BY_ZERO);
 
 	if (denominator < 0)
 	{
@@ -32,7 +37,7 @@ Fraction::Fraction(string name, int n, int d) : Variable(name, 0)
 	denominator = d;
 
 	if (denominator == 0)
-		throw exception("Делить на нуль нельзя!");
+		throw Exceptions(COMPUTE::DIVISION_BY_ZERO);
 
 	if (denominator < 0)
 	{
@@ -181,7 +186,7 @@ Variable* Fraction::operator/(Variable* arg)
 	Fraction* result = new Fraction();
 
 	if (f->numerator == 0)
-		throw exception("Делить на нуль нельзя!");
+		throw Exceptions(COMPUTE::DIVISION_BY_ZERO);
 
 	result->numerator = numerator * f->denominator;
 	result->denominator = denominator * f->numerator;
@@ -201,7 +206,7 @@ Variable* Fraction::operator/(Float* arg)
 	Fraction* result = new Fraction();
 
 	if (f->numerator == 0)
-		throw exception("Делить на нуль нельзя!");
+		throw Exceptions(COMPUTE::DIVISION_BY_ZERO);
 
 	result->numerator = numerator * f->denominator;
 	result->denominator = denominator * f->numerator;
@@ -245,7 +250,7 @@ Variable* Fraction::toUpDegree(Variable* arg)
 		return result;
 	}
 	else
-		throw exception("Нельзя возвести дробь в нецелочисленную степень!");
+		throw Exceptions(FORMAT::INVALID_POW);
 
 	return this;
 }
@@ -253,7 +258,7 @@ Variable* Fraction::toUpDegree(Variable* arg)
 Variable* Fraction::toUpDegree(Float* arg)
 {
 	if (arg->getVal() != round(arg->getVal()))
-		throw exception("Нельзя возвести дробь в нецелочисленную степень!");
+		throw Exceptions(FORMAT::INVALID_POW);
 
 	int degree = arg->getVal();
 
@@ -340,13 +345,13 @@ Fraction* Fraction::minimize(Fraction* f)
 int Fraction::LCD(int numerator, int denominator)
 {
 	int num = abs(numerator);
-	while (num != denominator)
+	while (num * denominator != 0)
 		if (num > denominator)
-			num -= denominator;
+			num %= denominator;
 		else
-			denominator -= num;
+			denominator %= num;
 
-	return num;
+	return num + denominator;
 }
 
 Fraction* Fraction::turnToFraction(double val)

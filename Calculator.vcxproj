@@ -133,6 +133,7 @@
     <ClCompile Include="Bracket.cpp" />
     <ClCompile Include="Calculator.cpp" />
     <ClCompile Include="Constant.cpp" />
+    <ClCompile Include="Exceptions.cpp" />
     <ClCompile Include="Float.cpp" />
     <ClCompile Include="Fraction.cpp" />
     <ClCompile Include="Complex.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="Bracket.h" />
     <ClInclude Include="Calculator.h" />
     <ClInclude Include="Constant.h" />
+    <ClInclude Include="Exceptions.h" />
     <ClInclude Include="Float.h" />
     <ClInclude Include="Fraction.h" />
     <ClInclude Include="Complex.h" />
