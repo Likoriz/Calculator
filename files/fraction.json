@@ -2,7 +2,7 @@
   "type": "fraction",
   "expression": "a+b",
   "variables":{
-    "a": [1],
+    "a": [1, 2],
     "b": [1, 6]
   }
 }
