@@ -28,4 +28,9 @@ public:
 
 	void print(Variable* arg = nullptr);
 };
+Variable* myDiv(Variable* left, Variable* right);
+Variable* myPlus(Variable* left, Variable* right);
+Variable* myMult(Variable* left, Variable* right);
+Variable* myMinus(Variable* left, Variable* right);
+void print(Variable* arg = nullptr);
 

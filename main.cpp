@@ -101,33 +101,34 @@ int main()
 
 				calc->Tokenize();
 
-				Variable* a = (Variable*)calc->getTokens()[0];
-				Float* b = (Float*)calc->getTokens()[2];
-				//Variable* b = (Variable*)calc->getTokens()[2];
+				//Variable* a = (Variable*)calc->getTokens()[0];
+				Float* a = (Float*)calc->getTokens()[0];
+				//Float* b = (Float*)calc->getTokens()[2];
+				Variable* b = (Variable*)calc->getTokens()[2];
 
 				switch (dynamic_cast<Operator*>((Operator*)calc->getTokens()[1])->getType())
 				{
 				case operatorsType::PLUS:
 				{
-					a->print(a->operator+(b));
+					a->print(myPlus(a, b));
 					cout << endl;
 					break;
 				}
 				case operatorsType::MINUS:
 				{
-					a->print(a->operator-(b));
+					a->print(myMinus(a,b));
 					cout << endl;
 					break;
 				}
 				case operatorsType::DIV:
 				{
-					a->print(a->operator/(b));
+					a->print(myDiv(a,b));
 					cout << endl;
 					break;
 				}
 				case operatorsType::MULT:
 				{
-					a->print(a->operator*(b));
+					a->print(myMult(a,b));
 					cout << endl;
 					break;
 				}

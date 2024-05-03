@@ -14,6 +14,7 @@ public:
 	Matrix(std::string name);
 	Matrix(int rows_, int cols_);
 	Matrix(std::string name, int r, int c, std::vector<double> e);
+	Matrix(int rows_, int cols_, double val);
 	Variable* operator+(Variable* arg);
 	Variable* operator+(Float* arg);
 

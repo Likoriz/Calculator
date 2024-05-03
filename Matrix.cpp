@@ -45,6 +45,23 @@ Matrix::Matrix(int rows_, int cols_)
 	elements.resize(rows, vector<double>(cols, 0));
 }
 
+Matrix::Matrix(int rows_, int cols_, double val)
+{
+	setDataType(dataType::MATRIX);
+
+	rows = rows_;
+	cols = cols_;
+
+	if (rows <= 0 || cols <= 0)
+		throw Exceptions(FORMAT::INVALID_SIZE);
+
+	elements.resize(rows, vector<double>(cols, 0));
+
+	for (int i = 0; i < rows; i++)
+		for (int j = 0; j < cols; j++)
+			elements[i][j] = val;
+}
+
 Matrix::Matrix(string name, int r, int c, vector<double> e) : Variable(name, 0)
 {
 	setDataType(dataType::MATRIX);
@@ -87,7 +104,7 @@ Variable* Matrix::operator+(Float* arg)
 	for (int i = 0; i < rows; i++)
 		for (int j = 0; j < cols; j++)
 			result->elements[i][j] = elements[i][j] + f;
-
+	print(result);
 	return result;
 }
 
