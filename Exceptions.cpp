@@ -24,6 +24,12 @@ Exceptions::Exceptions(JSON error)
 	case JSON::PARSE_ERROR:
 		message = "Ошибка чтения файла!";
 		break;
+	case JSON::VARIABLE_OVERRIDE:
+		message = "Неопределенная переменная!";
+		break;
+	case JSON::VARIABLE_ABSENCE:
+		message = "Отсутствует необходимая для вычисления выражения переменная!";
+		break;
 	default:
 		message = "Неизвестная ошибка во время чтения файла!";
 		break;
@@ -65,7 +71,7 @@ Exceptions::Exceptions(FORMAT error)
 	case FORMAT::INVALID_POW:
 		message = "Некорректное значение степени!";
 		break;
-	case FORMAT::IVALID_FORMAT:
+	case FORMAT::INVALID_FORMAT:
 		message = "Некорректный формат записи!";
 		break;
 	default:

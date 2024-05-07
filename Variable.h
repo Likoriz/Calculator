@@ -4,7 +4,7 @@
 
 class Float;
 
-class Variable:public Token
+class Variable :public Token
 {
 private:
 	dataType typeOfData;
@@ -13,22 +13,23 @@ public:
 	Variable(std::string name);
 	Variable();
 	Variable(std::string name, int i);
-	virtual Variable* operator+(Variable* arg)=0;
+	virtual Variable* operator+(Variable* arg) = 0;
 	virtual Variable* operator+(Float* arg) = 0;
 
-	virtual Variable* operator*(Variable* arg)=0;
+	virtual Variable* operator*(Variable* arg) = 0;
 	virtual Variable* operator*(Float* arg) = 0;
 
-	virtual Variable* operator-(Variable* arg)=0;
+	virtual Variable* operator-(Variable* arg) = 0;
 	virtual Variable* operator-(Float* arg) = 0;
 
-	virtual Variable* operator/(Variable* arg)=0;
+	virtual Variable* operator/(Variable* arg) = 0;
 	virtual Variable* operator/(Float* arg) = 0;
 
 	virtual Variable* toUpDegree(Variable* arg) = 0;
 	virtual Variable* toUpDegree(Float* arg) = 0;
-	
+
 	dataType getDataType();
 	void setDataType(dataType type);
+	std::string getName();
 	virtual void print(Variable* arg = nullptr) = 0;
 };

@@ -47,6 +47,7 @@ JsonReader::JsonReader(string path)
 		if (data.find("variables") != data.end())
 		{
 			json v = data["variables"];
+
 			if (type == "matrix")
 			{
 				for (auto& variable : v.items())

@@ -14,7 +14,7 @@ Complex::Complex(std::string name) :Variable(name)
 
 	cin >> real >> imaginary;
 	if (cin.fail())
-		throw Exceptions(FORMAT::IVALID_FORMAT);
+		throw Exceptions(FORMAT::INVALID_FORMAT);
 }
 
 Complex::Complex()

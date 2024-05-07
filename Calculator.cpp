@@ -9,6 +9,7 @@
 #include "Fraction.h"
 #include "Complex.h"
 #include <algorithm>
+#include "Exceptions.h"
 
 using namespace std;
 
@@ -90,8 +91,16 @@ void Calculator::Tokenize()
 					}
 				else
 				{
-					tokens.push_back(v[k]);
-					k++;
+					if (k + 1 <= v.size())
+						if (name == v[k]->getName())
+						{
+							tokens.push_back(v[k]);
+							k++;
+						}
+						else
+							throw Exceptions(JSON::VARIABLE_OVERRIDE);
+					else
+						throw Exceptions(JSON::VARIABLE_ABSENCE);
 				}
 			}
 			it--;

@@ -12,7 +12,7 @@ Fraction::Fraction(std::string name) : Variable(name)
 
 	cin >> numerator >> denominator;
 	if (cin.fail())
-		throw Exceptions(FORMAT::IVALID_FORMAT);
+		throw Exceptions(FORMAT::INVALID_FORMAT);
 
 	if (denominator == 0)
 		throw Exceptions(COMPUTE::DIVISION_BY_ZERO);

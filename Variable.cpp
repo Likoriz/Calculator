@@ -27,3 +27,8 @@ Variable::Variable(string name, int i)
 	setTokenType(tokenType::VARIABLE);
 	nameOfVariable = name;
 }
+
+string Variable::getName()
+{
+	return nameOfVariable;
+}
