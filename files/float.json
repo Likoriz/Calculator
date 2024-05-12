@@ -3,6 +3,6 @@
   "expression": "a+b",
   "variables": {
     "a": 2.01,
-    "b": 1
+    "b": 3
   }
 }

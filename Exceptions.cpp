@@ -24,6 +24,12 @@ Exceptions::Exceptions(JSON error)
 	case JSON::PARSE_ERROR:
 		message = "Ошибка чтения файла!";
 		break;
+	case JSON::VARIABLE_OVERRIDE:
+		message = "Неопределенная переменная!";
+		break;
+	case JSON::VARIABLE_ABSENCE:
+		message = "Отсутствует необходимая для вычисления выражения переменная!";
+		break;
 	default:
 		message = "Неизвестная ошибка во время чтения файла!";
 		break;
