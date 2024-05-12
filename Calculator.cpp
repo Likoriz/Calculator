@@ -75,24 +75,35 @@ void Calculator::Tokenize()
 				} while (++it != expression.end() && (*it >= 'a' && *it <= 'z' || *it >= 'A' && *it <= 'Z'));
 
 				if (reader == nullptr)
-					switch (workingMode)
+				{
+					if (variables.find(name) == variables.end())
 					{
-					case dataType::BIGINT:
-						tokens.push_back(new BigInteger(name)); break;
-					case dataType::FLOAT:
-						tokens.push_back(new Float(name)); break;
-					case dataType::MATRIX:
-						tokens.push_back(new Matrix(name)); break;
-					case dataType::COMPLEX:
-						tokens.push_back(new Complex(name)); break;
-					case dataType::FRACTION:
-						tokens.push_back(new Fraction(name)); break;
+						switch (workingMode)
+						{
+						case dataType::BIGINT:
+							tokens.push_back(new BigInteger(name)); break;
+						case dataType::FLOAT:
+							tokens.push_back(new Float(name)); break;
+						case dataType::MATRIX:
+							tokens.push_back(new Matrix(name)); break;
+						case dataType::COMPLEX:
+							tokens.push_back(new Complex(name)); break;
+						case dataType::FRACTION:
+							tokens.push_back(new Fraction(name)); break;
+						}
+						variables.insert({name, (Variable*)(tokens[tokens.size() - 1])});
 					}
+					else
+					{
+						tokens.push_back(variables[name]);
+					}
+				}
 				else
 				{
 					tokens.push_back(v[k]);
 					k++;
 				}
+				
 			}
 			it--;
 		}

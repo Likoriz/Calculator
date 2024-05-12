@@ -27,7 +27,7 @@ int main()
 			cout << "—читать из файла (1) или ввести вручную (2)? ";
 			cin >> choice;
 			if (cin.fail())
-				throw Exceptions(FORMAT::IVALID_FORMAT);
+				throw Exceptions(FORMAT::INVALID_FORMAT);
 
 			switch (choice)
 			{
@@ -38,7 +38,7 @@ int main()
 				cout << "¬ведите путь к файлу: ";
 				cin >> path;
 				if (cin.fail())
-					throw Exceptions(FORMAT::IVALID_FORMAT);
+					throw Exceptions(FORMAT::INVALID_FORMAT);
 
 				Calculator* calc = new Calculator(path);
 				calc->Tokenize();
@@ -90,12 +90,12 @@ int main()
 				cout << "¬ведите режим работы (0 - float, 1 - fraction, 2 - matrix, 3 - bigint, 4 - complex): ";
 				scanf_s("%d", &mode);
 				if (!(mode == dataType::FLOAT || mode == dataType::BIGINT || mode == dataType::COMPLEX || mode == dataType::FRACTION || mode == dataType::MATRIX))
-					throw Exceptions(FORMAT::IVALID_FORMAT);
+					throw Exceptions(FORMAT::INVALID_FORMAT);
 
 				cout << "¬ведите пример:";
 				cin >> str;
 				if (cin.fail())
-					throw Exceptions(FORMAT::IVALID_FORMAT);
+					throw Exceptions(FORMAT::INVALID_FORMAT);
 
 				Calculator* calc = new Calculator(str, mode);
 

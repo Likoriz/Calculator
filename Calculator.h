@@ -12,6 +12,7 @@ private:
 	std::vector <Token*> tokens;
 	std::string expression;
 	JsonReader* reader;
+	std::map <std::string, Variable*> variables;
 public:
 	Calculator(std::string str, dataType mode);
 	Calculator(std::string path);

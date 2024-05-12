@@ -12,7 +12,7 @@ Matrix::Matrix(string name) : Variable(name)
 
 	cin >> rows >> cols;
 	if (cin.fail())
-		throw Exceptions(FORMAT::IVALID_FORMAT);
+		throw Exceptions(FORMAT::INVALID_FORMAT);
 
 	if (rows <= 0 || cols <= 0)
 		throw Exceptions(FORMAT::INVALID_SIZE);
@@ -26,7 +26,7 @@ Matrix::Matrix(string name) : Variable(name)
 		{
 			cin >> elements[i][j];
 			if (cin.fail())
-				throw Exceptions(FORMAT::IVALID_FORMAT);
+				throw Exceptions(FORMAT::INVALID_FORMAT);
 		}
 
 	cout << endl;

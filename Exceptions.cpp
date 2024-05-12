@@ -65,7 +65,7 @@ Exceptions::Exceptions(FORMAT error)
 	case FORMAT::INVALID_POW:
 		message = "Некорректное значение степени!";
 		break;
-	case FORMAT::IVALID_FORMAT:
+	case FORMAT::INVALID_FORMAT:
 		message = "Некорректный формат записи!";
 		break;
 	default:
