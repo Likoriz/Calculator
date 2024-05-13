@@ -35,7 +35,7 @@ Calculator::~Calculator()
 void Calculator::Tokenize()
 {
 	int k = 0;
-	vector<Variable*> v;
+	map<string, Variable*> v;
 	if (reader)
 		v = reader->getVariables();
 
@@ -92,7 +92,7 @@ void Calculator::Tokenize()
 						case dataType::FRACTION:
 							tokens.push_back(new Fraction(name)); break;
 						}
-						variables.insert({name, (Variable*)(tokens[tokens.size() - 1])});
+						variables.insert({ name, (Variable*)(tokens[tokens.size() - 1]) });
 					}
 					else
 					{
@@ -101,18 +101,15 @@ void Calculator::Tokenize()
 				}
 				else
 				{
-					if (k + 1 <= v.size())
-						if (name == v[k]->getName())
-						{
-							tokens.push_back(v[k]);
-							k++;
-						}
-						else
-							throw Exceptions(JSON::VARIABLE_OVERRIDE);
+					if (v.find(name) != v.end())
+					{
+						tokens.push_back(v[name]);
+						k++;
+					}
 					else
 						throw Exceptions(JSON::VARIABLE_ABSENCE);
 				}
-				
+
 			}
 			it--;
 		}

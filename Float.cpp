@@ -138,5 +138,8 @@ Variable* Float::toUpDegree(Float* arg)
 
 void Float::print(Variable* arg)
 {
-	cout << val;
+	if (arg)
+		arg->print();
+	else
+		cout << val;
 }

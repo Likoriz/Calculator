@@ -18,11 +18,11 @@ private:
 	nlohmann::json data;
 	std::string type;
 	std::string expression;
-	std::vector<Variable*> variables;
+	std::map <std::string, Variable*> variables;
 public:
 	JsonReader(std::string path);
 	~JsonReader();
 	dataType getType();
 	std::string getExpression();
-	std::vector<Variable*> getVariables();
+	std::map<std::string, Variable*> getVariables();
 };

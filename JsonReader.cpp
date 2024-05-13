@@ -64,7 +64,7 @@ JsonReader::JsonReader(string path)
 							if (s[0] * s[1] != e.size())
 								throw Exceptions(JSON::INVALID_VALUE);
 
-							variables.push_back(new Matrix(vname, s[0], s[1], e));
+							variables.insert({ vname , new Matrix(vname, s[0], s[1], e) });
 						}
 						else
 							throw Exceptions(JSON::ABSENT_VALUE);
@@ -77,7 +77,7 @@ JsonReader::JsonReader(string path)
 				for (json::iterator it = v.begin(); it != v.end(); ++it)
 					if (type == "float")
 					{
-						variables.push_back(new Float(it.key(), it.value()));
+						variables.insert({ it.key(), new Float(it.key(), it.value()) });
 					}
 					else if (type == "fraction")
 					{
@@ -85,12 +85,12 @@ JsonReader::JsonReader(string path)
 						if (f.size() != 2)
 							throw Exceptions(JSON::INVALID_VALUE);
 						else
-							variables.push_back(new Fraction(it.key(), f[0], f[1]));
+							variables.insert({ it.key(), new Fraction(it.key(), f[0], f[1]) });
 					}
 					else if (type == "bigint")
 					{
 						if (it.value().is_string())
-							variables.push_back(new BigInteger(it.key(), it.value()));
+							variables.insert({ it.key(), new BigInteger(it.key(), it.value()) });
 						else
 							throw Exceptions(JSON::NOT_STRING_VALUE);
 					}
@@ -99,7 +99,7 @@ JsonReader::JsonReader(string path)
 						vector<double> c = it.value();
 						if (c.size() != 2)
 							throw Exceptions(JSON::INVALID_VALUE);
-						variables.push_back(new Complex(it.key(), c[0], c[1]));
+						variables.insert({ it.key(), new Complex(it.key(), c[0], c[1]) });
 					}
 					else
 						throw Exceptions(JSON::UNKNOWN_TYPE);
@@ -138,7 +138,7 @@ string JsonReader::getExpression()
 	return expression;
 }
 
-vector<Variable*> JsonReader::getVariables()
+map<string, Variable*> JsonReader::getVariables()
 {
 	return variables;
 }

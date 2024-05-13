@@ -104,7 +104,7 @@ Variable* Matrix::operator+(Float* arg)
 	for (int i = 0; i < rows; i++)
 		for (int j = 0; j < cols; j++)
 			result->elements[i][j] = elements[i][j] + f;
-	print(result);
+
 	return result;
 }
 
