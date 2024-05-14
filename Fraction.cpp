@@ -104,18 +104,27 @@ Variable* Fraction::operator+(Float* arg)
 Variable* Fraction::operator*(Variable* arg)
 {
 	const Fraction* f = dynamic_cast<const Fraction*>(arg);
-	Fraction* result = new Fraction();
-
-	result->numerator = numerator * f->numerator;
-	result->denominator = denominator * f->denominator;
-
-	if (result->denominator < 0)
+	if (f)
 	{
-		result->numerator *= -1;
-		result->denominator *= -1;
-	}
+		Fraction* result = new Fraction();
 
-	return result;
+		result->numerator = numerator * f->numerator;
+		result->denominator = denominator * f->denominator;
+
+		if (result->denominator < 0)
+		{
+			result->numerator *= -1;
+			result->denominator *= -1;
+		}
+		return result;
+	}
+	else
+	{
+		Float* ff = dynamic_cast<Float*>(arg);
+
+		Variable* result = new Float(ff->getVal() / ((double)denominator / (double)numerator));
+		return result;
+	}
 }
 
 Variable* Fraction::operator*(Float* arg)

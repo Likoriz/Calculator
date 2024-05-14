@@ -83,17 +83,31 @@ Variable* Matrix::operator+(Variable* arg)
 {
 	const Matrix* m = dynamic_cast<const Matrix*>(arg);
 
-	if (rows == m->rows && cols == m->cols)
+	if (m)
 	{
-		Matrix* result = new Matrix(m->rows, m->cols);
+		if (rows == m->rows && cols == m->cols)
+		{
+			Matrix* result = new Matrix(m->rows, m->cols);
+			for (int i = 0; i < rows; i++)
+				for (int j = 0; j < cols; j++)
+					result->elements[i][j] = elements[i][j] + m->elements[i][j];
+
+			return result;
+		}
+		else
+			throw Exceptions(COMPUTE::INCOMPATIBLE_SIZES);
+	}
+	else
+	{
+		Float* f = dynamic_cast<Float*>(arg);
+
+		Matrix* result = new Matrix(rows, cols);
 		for (int i = 0; i < rows; i++)
 			for (int j = 0; j < cols; j++)
-				result->elements[i][j] = elements[i][j] + m->elements[i][j];
+				result->elements[i][j] = elements[i][j] + f->getVal();
 
 		return result;
 	}
-	else
-		throw Exceptions(COMPUTE::INCOMPATIBLE_SIZES);
 }
 
 Variable* Matrix::operator+(Float* arg)
@@ -112,18 +126,32 @@ Variable* Matrix::operator*(Variable* arg)
 {
 	const Matrix* m = dynamic_cast<const Matrix*>(arg);
 
-	if (cols == m->rows)
+	if (m)
 	{
-		Matrix* result = new Matrix(rows, m->cols);
+		if (cols == m->rows)
+		{
+			Matrix* result = new Matrix(rows, m->cols);
+			for (int i = 0; i < rows; i++)
+				for (int j = 0; j < m->cols; j++)
+					for (int k = 0; k < cols; k++)
+						result->elements[i][j] += elements[i][k] * m->elements[k][j];
+
+			return result;
+		}
+		else
+			throw Exceptions(COMPUTE::INCOMPATIBLE_SIZES);
+	}
+	else
+	{
+		Float* f = dynamic_cast<Float*>(arg);
+
+		Matrix* result = new Matrix(rows, cols);
 		for (int i = 0; i < rows; i++)
-			for (int j = 0; j < m->cols; j++)
-				for (int k = 0; k < cols; k++)
-					result->elements[i][j] += elements[i][k] * m->elements[k][j];
+			for (int j = 0; j < cols; j++)
+				result->elements[i][j] = elements[i][j] * f->getVal();
 
 		return result;
 	}
-	else
-		throw Exceptions(COMPUTE::INCOMPATIBLE_SIZES);
 }
 
 Variable* Matrix::operator*(Float* arg)

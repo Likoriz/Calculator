@@ -101,8 +101,8 @@ int main()
 
 				calc->Tokenize();
 
-				Variable* a = (Variable*)calc->getTokens()[0];
-				//Float* a = (Float*)calc->getTokens()[0];
+				//Variable* a = (Variable*)calc->getTokens()[0];
+				Float* a = (Float*)calc->getTokens()[0];
 				//Float* b = (Float*)calc->getTokens()[2];
 				Variable* b = (Variable*)calc->getTokens()[2];
 

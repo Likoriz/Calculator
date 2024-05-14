@@ -36,8 +36,20 @@ Variable* Complex::operator+(Variable* arg)
 
 	Complex* result = new Complex();
 
-	result->real = real + c->real;
-	result->imaginary = imaginary + c->imaginary;
+	if (c)
+	{
+		result->real = real + c->real;
+		result->imaginary = imaginary + c->imaginary;
+	}
+	else
+	{
+		Float* f = dynamic_cast<Float*>(arg);
+
+		result->real = real + f->getVal();
+		result->imaginary = imaginary;
+
+		return result;
+	}
 
 	return result;
 }
@@ -58,8 +70,20 @@ Variable* Complex::operator*(Variable* arg)
 
 	Complex* result = new Complex();
 
-	result->real = real * c->real - imaginary * c->imaginary;
-	result->imaginary = real * c->imaginary + c->real * imaginary;
+	if (c)
+	{
+		result->real = real * c->real - imaginary * c->imaginary;
+		result->imaginary = real * c->imaginary + c->real * imaginary;
+	}
+	else
+	{
+		Float* f = dynamic_cast<Float*>(arg);
+		Complex* tmp = new Complex();
+		tmp->real = f->getVal();
+
+		result->real = real * tmp->real - imaginary * tmp->imaginary;
+		result->imaginary = real * tmp->imaginary + tmp->real * imaginary;
+	}
 
 	return result;
 }

@@ -23,7 +23,7 @@ Variable* myMinus(Variable* left, Variable* right)
 {
 	switch (left->getDataType())
 	{
-	case dataType::FLOAT: return right->operator* (new Float(-1))->operator-(left); 
+	case dataType::FLOAT: return right->operator* (new Float(-1))->operator+(left); 
 	default: return *left - right; 
 	}
 }
@@ -46,7 +46,7 @@ Variable* myDiv(Variable* left, Variable* right)
 {
 	switch (left->getDataType())
 	{
-	case dataType::FLOAT: return right->toUpDegree(new Float(-1))->operator/(left); 
+	case dataType::FLOAT: return right->toUpDegree(new Float(-1))->operator*(left); 
 	default: return *left / right; 
 	}
 }
