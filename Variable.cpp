@@ -32,3 +32,8 @@ string Variable::getName()
 {
 	return nameOfVariable;
 }
+
+void Variable::setName(std::string str)
+{
+	nameOfVariable = str;
+}

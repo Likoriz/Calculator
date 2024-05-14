@@ -1,11 +1,13 @@
 #include "Float.h"
+#include "Exceptions.h"
 #include <iostream>
+#include <string>
 
 using namespace std;
 
 Float::Float(std::string name) :Variable(name)
 {
-	cout << "введите Float:";
+	cout << "Введите Float:";
 	setDataType(dataType::FLOAT);
 	std::cin >> val;
 }
@@ -26,11 +28,6 @@ Variable* myMinus(Variable* left, Variable* right)
 	case dataType::FLOAT: return right->operator* (new Float(-1))->operator+(left); 
 	default: return *left - right; 
 	}
-}
-
-void print(Variable* arg)
-{
-
 }
 
 Variable* myMult(Variable* left, Variable* right)
@@ -55,6 +52,7 @@ Float::Float(double value)
 {
 	setDataType(dataType::FLOAT);
 	val = value;
+	setName(to_string(value));
 }
 
 Float::Float(string name, double value) : Variable(name, 0)
@@ -108,7 +106,7 @@ Variable* Float::operator/(Variable* arg)
 {
 	if (((Float*)arg)->getVal() == 0)
 	{
-		throw exception("Деление на нуль не определено");
+		throw Exceptions(COMPUTE::DIVISION_BY_ZERO);
 	}
 	val /= ((Float*)arg)->val;
 	return this;
@@ -118,7 +116,7 @@ Variable* Float::operator/(Float* arg)
 {
 	if (arg->getVal() == 0)
 	{
-		throw exception("Деление на нуль не определено");
+		throw Exceptions(COMPUTE::DIVISION_BY_ZERO);
 	}
 	val /= arg->val;
 	return this;

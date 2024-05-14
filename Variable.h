@@ -31,5 +31,6 @@ public:
 	dataType getDataType();
 	void setDataType(dataType type);
 	std::string getName();
+	void setName(std::string str);
 	virtual void print(Variable* arg = nullptr) = 0;
 };
