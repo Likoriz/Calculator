@@ -150,7 +150,7 @@ Variable* Complex::operator/(Float* arg)
 
 Variable* Complex::toUpDegree(Variable* arg)
 {
-	throw Exceptions(COMPUTE::COMPLEX_POW_COMPLEX);
+	throw Exceptions(FORMAT::INVALID_POW);
 }
 
 Variable* Complex::toUpDegree(Float* arg)

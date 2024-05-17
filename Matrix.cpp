@@ -217,7 +217,7 @@ Variable* Matrix::operator/(Float* arg)
 
 Variable* Matrix::toUpDegree(Variable* arg)
 {
-	throw Exceptions(COMPUTE::MATRIX_POW_MATRIX);
+	throw Exceptions(FORMAT::INVALID_POW);
 }
 
 Variable* Matrix::toUpDegree(Float* arg)
