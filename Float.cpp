@@ -130,8 +130,14 @@ Variable* Float::operator/(Float* arg)
 
 Variable* Float::toUpDegree(Variable* arg)
 {
-	val = pow(val, ((Float*)arg)->val);
-	return this;
+	Float* f = dynamic_cast<Float*>(arg);
+	if (f)
+	{
+		val = pow(val, ((Float*)arg)->val);
+		return this;
+	}
+	else
+		throw Exceptions(FORMAT::INVALID_POW);
 }
 
 Variable* Float::toUpDegree(Float* arg)

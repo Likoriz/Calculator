@@ -46,12 +46,6 @@ Exceptions::Exceptions(COMPUTE error)
 	case COMPUTE::MATRIX_DIVISION:
 		message = "Деление матрицы на матрицу!";
 		break;
-	case COMPUTE::MATRIX_POW_MATRIX:
-		message = "Возведение матрицы в степень матрицы!";
-		break;
-	case COMPUTE::COMPLEX_POW_COMPLEX:
-		message = "Возведение комплексного числа в степень комплексного числа!";
-		break;
 	default:
 		message = "Неизвестная ошибка во время вычисления!";
 		break;
