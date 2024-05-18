@@ -152,9 +152,9 @@ int main()
 	{
 		cout << "Во время выполнения программы возникла ошибка: " << e.what() << endl;
 	}
-	//catch (...)
-	//{
-	//	cout << "wut?" << endl;
-	//}
+	catch (...)
+	{
+		cout << "wut?" << endl;
+	}
 	system("pause");
 }

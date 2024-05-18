@@ -1,5 +1,6 @@
 #pragma once
 #include "Token.h"
+#include "Exceptions.h"
 #include <iostream>
 
 class Float;

@@ -3,28 +3,6 @@
 
 using namespace std;
 
-void BigInteger::turnStrToBi(std::string name, std::string bi)
-{
-	if (bi.length() == 0) {
-		isNegative=false;
-	}
-	else {
-		if (bi[0] == '-') {
-			bi=bi.substr(1);
-			isNegative=true;
-		}
-		else {
-			isNegative=false;
-		}
-		for (long long i=bi.length(); i > 0; i-=9) {
-			if (i < 9)
-				digits.push_back(atoi(bi.substr(0, i).c_str()));
-			else
-				digits.push_back(atoi(bi.substr(i - 9, 9).c_str()));
-		}
-		remove_leading_zeros();
-	}
-}
 
 
 BigInteger::BigInteger(string name) :Variable(name)
@@ -55,6 +33,25 @@ BigInteger::BigInteger(Float* arg) {
 	} while (arg->getVal() != 0);
 }
 
+BigInteger::BigInteger(int val) {
+	if (val < 0)
+	{
+		this->isNegative=true;
+		val=-val;
+	}
+	else
+		this->isNegative=false;
+	do
+	{
+		this->digits.push_back(val % BigInteger::BASE);
+		val/=BigInteger::BASE;
+	} while (val != 0);
+}
+
+BigInteger::BigInteger()
+{
+	isNegative=false;
+}
 
 BigInteger* BigInteger::operator +() {
 	return this;
@@ -160,11 +157,46 @@ Variable* BigInteger::operator+(Variable* arg)
 
 Variable* BigInteger::operator*(Variable* arg)
 {
-	return this;
+	if (dynamic_cast<BigInteger*>(arg))
+	{
+		BigInteger* result= new BigInteger();
+		BigInteger* tmpArg=(BigInteger*)arg;
+		result->digits.resize(this->digits.size() + tmpArg->digits.size());
+		for (size_t i=0; i < this->digits.size(); ++i) {
+			int carry=0;
+			for (size_t j=0; j < tmpArg->digits.size() || carry != 0; ++j) {
+				long long cur=result->digits[i + j] +
+					this->digits[i] * 1LL * (j < tmpArg->digits.size() ? tmpArg->digits[j] : 0) + carry;
+				result->digits[i + j]=static_cast<int>(cur % BigInteger::BASE);
+				carry=static_cast<int>(cur / BigInteger::BASE);
+			}
+		}
+		// не забудем про знак
+		result->isNegative=this->isNegative != tmpArg->isNegative;
+		result->removeLeadingZeros();
+		*this=*result;
+		delete result;
+		return this;
+	}
+	else
+	{
+		return this->operator*((Float*)arg);
+	}
 }
 
 Variable* BigInteger::operator*(Float* arg)
 {
+	BigInteger* tmp=new BigInteger(arg);
+	this->operator*(tmp);
+	delete tmp;
+	return this;
+}
+
+Variable* BigInteger::operator*(int arg)
+{
+	BigInteger* tmp=new BigInteger(arg);
+	this->operator*(tmp);
+	delete tmp;
 	return this;
 }
 
@@ -184,7 +216,7 @@ Variable* BigInteger::operator-(Variable* arg)
 			if (carry != 0) this->digits[i]+=BigInteger::BASE;
 		}
 
-		this->remove_leading_zeros();
+		this->removeLeadingZeros();
 		return this;
 	}
 	else
@@ -203,31 +235,122 @@ Variable* BigInteger::operator-(Float* arg)
 
 Variable* BigInteger::operator/(Variable* arg)
 {
-	return this;
+	BigInteger null(0);
+	if (dynamic_cast<BigInteger*>(arg))
+	{
+		BigInteger* tmpArg=(BigInteger*)arg;
+		if (*tmpArg == null) 
+			throw Exceptions(COMPUTE::DIVISION_BY_ZERO);
+		tmpArg->isNegative=false;
+		BigInteger* result = new BigInteger(), current;
+		result->digits.resize(this->digits.size());
+		for (long long i=static_cast<long long>(this->digits.size()) - 1; i >= 0; --i) {
+			current.shiftRight();
+			current.digits[0]=this->digits[i];
+			current.removeLeadingZeros();
+			int x=0, l=0, r=current.digits[0];
+			while (l <= r) {
+				int m=(l + r) / 2;
+				BigInteger* t;
+				t=(BigInteger*)(tmpArg->operator*(m));
+				if (*t <= current) {
+					l=m;
+				}
+				else r=m - 1;
+			}
+			if (tmpArg->operator*(r) <= this) {
+				l=r;
+			}
+			result->digits[i]=l;
+			current=*(BigInteger*)(current - *tmpArg * x);
+		} 
+
+		result->isNegative=this->isNegative != tmpArg->isNegative;
+		result->removeLeadingZeros();
+		*this=*result;
+		delete result;
+		return this;
+	}
+	else
+	{
+		return this->operator/((Float*)arg);
+	}
 }
 
 Variable* BigInteger::operator/(Float* arg)
 {
+	BigInteger* tmp=new BigInteger(arg);
+	this->operator/(tmp);
+	delete tmp;
 	return this;
+}
+
+bool BigInteger::odd() {
+	if (this->digits.size() == 0) return false;
+	return this->digits[0] & 1;
+}
+
+bool BigInteger::even() {
+	return !this->odd();
 }
 
 Variable* BigInteger::toUpDegree(Variable* arg)
 {
-	return this;
+	BigInteger result(1);
+	if (dynamic_cast<BigInteger*>(arg))
+	{
+		BigInteger tmpArg=*(BigInteger*)arg;
+		if (tmpArg.odd())
+			result.operator*=(this);
+		while (tmpArg.digits[0] > 0) {
+			result.operator*=(this);
+			tmpArg.digits[0]-=1;
+		}
+		*this=result;
+		return this;
+	}
+	else
+	{
+		toUpDegree((Float*)arg);
+	}
 }
 
 Variable* BigInteger::toUpDegree(Float* arg)
 {
+	BigInteger* tmp=new BigInteger(arg);
+	this->toUpDegree(tmp);
+	delete tmp;
 	return this;
 }
 
-void BigInteger::remove_leading_zeros() {
+void BigInteger::removeLeadingZeros() {
 	while (digits.size() > 1 && digits.back() == 0) {
 		digits.pop_back();
 	}
 	if (digits.size() == 1 && digits[0] == 0) isNegative=false;
 }
 
+void BigInteger::shiftRight() {
+	if (this->digits.size() == 0) {
+		this->digits.push_back(0);
+		return;
+	}
+	this->digits.push_back(this->digits[this->digits.size() - 1]);
+	// здесь размер массива равен как минимум двум и перебор идет до предпоследнего разряда,
+	// поэтому i имеет "верный" тип size_t
+	for (long long i=this->digits.size() - 2; i > 0; i--) this->digits[i]=this->digits[i - 1];
+	this->digits[0]=0;
+}
+
+BigInteger* BigInteger::operator /=(BigInteger* value) {
+	*this=*(BigInteger*)(this->operator/((Variable*)(value)));
+	return this;
+}
+
+BigInteger* BigInteger::operator *=(BigInteger* value) {
+	*this=*(BigInteger*)this->operator*(value);
+	return this;
+}
 
 void BigInteger::print(Variable* arg)
 {
@@ -257,6 +380,30 @@ void BigInteger::print(Variable* arg)
 				cout << digits[i];
 			}
 		}
+	}
+}
+
+
+void BigInteger::turnStrToBi(std::string name, std::string bi)
+{
+	if (bi.length() == 0) {
+		isNegative=false;
+	}
+	else {
+		if (bi[0] == '-') {
+			bi=bi.substr(1);
+			isNegative=true;
+		}
+		else {
+			isNegative=false;
+		}
+		for (long long i=bi.length(); i > 0; i-=9) {
+			if (i < 9)
+				digits.push_back(atoi(bi.substr(0, i).c_str()));
+			else
+				digits.push_back(atoi(bi.substr(i - 9, 9).c_str()));
+		}
+		removeLeadingZeros();
 	}
 }
 
