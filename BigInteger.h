@@ -8,12 +8,15 @@ class BigInteger : public Variable
 private:
 	int BASE=1000000000;
 	std::vector<int> digits;
-	bool is_negative;
+	bool isNegative=0;
 public: 
 	BigInteger(std::string name);
+	BigInteger(Float* arg);
 	BigInteger(std::string name, std::string bi);
-	Variable* operator+(Variable* arg);
+	BigInteger* operator -();
+	BigInteger* operator +();
 	Variable* operator+(Float* arg);
+	Variable* operator+(Variable* arg);
 
 	Variable* operator*(Variable* arg);
 	Variable* operator*(Float* arg);
@@ -28,7 +31,14 @@ public:
 	Variable* toUpDegree(Float* arg);
 
 	void print(Variable* arg = nullptr);
-
+	bool getNegative();
+	std::vector<int> getDigits();
 	void remove_leading_zeros();
+	void turnStrToBi(std::string name, std::string bi);
 };
 
+bool operator >(BigInteger& left, BigInteger& right);
+bool operator >=(BigInteger& left, BigInteger& right);
+bool operator <=(BigInteger& left, BigInteger& right);
+bool operator !=(BigInteger& left, BigInteger& right);
+bool operator <(BigInteger& left, BigInteger& right);

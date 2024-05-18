@@ -17,7 +17,7 @@ Variable* myPlus(Variable* left, Variable* right)
 	switch (left->getDataType())
 	{
 	case dataType::FLOAT: return *right + dynamic_cast<Float*>(left); 
-	default: return *left + right; 
+	default: return left->operator+(right); 
 	}
 }
 
@@ -51,6 +51,7 @@ Variable* myDiv(Variable* left, Variable* right)
 Float::Float(double value)
 {
 	setDataType(dataType::FLOAT);
+	setTokenType(tokenType::CONST);
 	val = value;
 	setName(to_string(value));
 }
@@ -64,6 +65,11 @@ Float::Float(string name, double value) : Variable(name, 0)
 double Float::getVal()
 {
 	return val;
+}
+
+void Float::setVal(float value)
+{
+	val=value;
 }
 
 Variable* Float::operator+(Variable* arg)

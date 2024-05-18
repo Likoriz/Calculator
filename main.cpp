@@ -103,8 +103,8 @@ int main()
 
 				//Variable* a = (Variable*)calc->getTokens()[0];
 				Float* a = (Float*)calc->getTokens()[0];
-				Float* b = (Float*)calc->getTokens()[2];
-				//Variable* b = (Variable*)calc->getTokens()[2];
+				//Float* b = (Float*)calc->getTokens()[2];
+				Variable* b = (Variable*)calc->getTokens()[2];
 
 				switch (dynamic_cast<Operator*>((Operator*)calc->getTokens()[1])->getType())
 				{
@@ -152,8 +152,9 @@ int main()
 	{
 		cout << "Во время выполнения программы возникла ошибка: " << e.what() << endl;
 	}
-	catch (...)
-	{
-		cout << "wut?" << endl;
-	}
+	//catch (...)
+	//{
+	//	cout << "wut?" << endl;
+	//}
+	system("pause");
 }

@@ -11,6 +11,7 @@ public:
 	Float(std::string name, double value);
 
 	double getVal();
+	void setVal(float value);
 	Variable* operator+(Variable* arg);
 	Variable* operator+(Float* arg);
 
