@@ -9,6 +9,7 @@ private:
 	int BASE=1000000000;
 	std::vector<int> digits;
 	bool isNegative=0;
+	bool isInverted=0;
 public: 
 	BigInteger(std::string name);
 	BigInteger(Float* arg);
