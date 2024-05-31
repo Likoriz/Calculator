@@ -154,6 +154,7 @@ int main()
 	}
 	catch (...)
 	{
+
 		cout << "wut?" << endl;
 	}
 	system("pause");
