@@ -99,12 +99,9 @@ Variable* Matrix::operator+(Variable* arg)
 	}
 	else
 	{
-		Float* f = dynamic_cast<Float*>(arg);
+		Float* v = dynamic_cast<Float*>(arg);
 
-		Matrix* result = new Matrix(rows, cols);
-		for (int i = 0; i < rows; i++)
-			for (int j = 0; j < cols; j++)
-				result->elements[i][j] = elements[i][j] + f->getVal();
+		Variable* result = operator+(v);
 
 		return result;
 	}
@@ -143,12 +140,9 @@ Variable* Matrix::operator*(Variable* arg)
 	}
 	else
 	{
-		Float* f = dynamic_cast<Float*>(arg);
+		Float* v = dynamic_cast<Float*>(arg);
 
-		Matrix* result = new Matrix(rows, cols);
-		for (int i = 0; i < rows; i++)
-			for (int j = 0; j < cols; j++)
-				result->elements[i][j] = elements[i][j] * f->getVal();
+		Variable* result = operator*(v);
 
 		return result;
 	}
@@ -170,17 +164,28 @@ Variable* Matrix::operator-(Variable* arg)
 {
 	const Matrix* m = dynamic_cast<const Matrix*>(arg);
 
-	if (rows == m->rows && cols == m->cols)
+	if (m)
 	{
-		Variable* result = new Matrix(m->rows, m->cols);
-		for (int i = 0; i < rows; i++)
-			for (int j = 0; j < cols; j++)
-				dynamic_cast<Matrix*>(result)->elements[i][j] = elements[i][j] - m->elements[i][j];
+		if (rows == m->rows && cols == m->cols)
+		{
+			Variable* result = new Matrix(m->rows, m->cols);
+			for (int i = 0; i < rows; i++)
+				for (int j = 0; j < cols; j++)
+					dynamic_cast<Matrix*>(result)->elements[i][j] = elements[i][j] - m->elements[i][j];
+
+			return result;
+		}
+		else
+			throw Exceptions(COMPUTE::INCOMPATIBLE_SIZES);
+	}
+	else
+	{
+		Float* v = dynamic_cast<Float*>(arg);
+
+		Variable* result = operator-(v);
 
 		return result;
 	}
-	else
-		throw Exceptions(COMPUTE::INCOMPATIBLE_SIZES);
 }
 
 Variable* Matrix::operator-(Float* arg)
@@ -197,7 +202,18 @@ Variable* Matrix::operator-(Float* arg)
 
 Variable* Matrix::operator/(Variable* arg)
 {
-	throw Exceptions(COMPUTE::MATRIX_DIVISION);
+	Matrix* c = dynamic_cast<Matrix*>(arg);
+
+	if (c)
+		throw Exceptions(COMPUTE::MATRIX_DIVISION);
+	else
+	{
+		Float* v = dynamic_cast<Float*>(arg);
+
+		Variable* result = operator/(v);
+
+		return result;
+	}
 }
 
 Variable* Matrix::operator/(Float* arg)
@@ -217,7 +233,18 @@ Variable* Matrix::operator/(Float* arg)
 
 Variable* Matrix::toUpDegree(Variable* arg)
 {
+	Matrix* c = dynamic_cast<Matrix*>(arg);
+
+	if (c)
 	throw Exceptions(FORMAT::INVALID_POW);
+	else
+	{
+		Float* v = dynamic_cast<Float*>(arg);
+
+		Variable* result = toUpDegree(v);
+
+		return result;
+	}
 }
 
 Variable* Matrix::toUpDegree(Float* arg)

@@ -96,21 +96,16 @@ int main() {
 
                 calc->Tokenize();
 
-                // Variable* a = (Variable*)calc->getTokens()[0];
-                // Float* a = (Float*)calc->getTokens()[0];
-                // Float* b = (Float*)calc->getTokens()[2];
-                // Variable* b = (Variable*)calc->getTokens()[2];
-
-                cout << "Токены после токенезации: ";
+                cout << "Tokens after tokenization: ";
                 calc->printTokens(calc->getTokens());
 
-                
+                // Преобразуем в ОПЗ
                 calc->turnToRPN();
 
                 cout << "ОПН: ";
                 calc->printTokens(calc->getTokens());
 
-                
+                // Вычисляем результат
                 calc->calculateRPN();
 
                 break;
