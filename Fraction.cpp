@@ -51,21 +51,31 @@ Variable* Fraction::operator+(Variable* arg)
 	const Fraction* f = dynamic_cast<const Fraction*>(arg);
 	Fraction* result = new Fraction();
 
-	if (denominator == f->denominator)
+	if (f)
 	{
-		result->numerator = numerator + f->numerator;
-		result->denominator = denominator;
+		if (denominator == f->denominator)
+		{
+			result->numerator = numerator + f->numerator;
+			result->denominator = denominator;
+		}
+		else
+		{
+			result->numerator = numerator * f->denominator + f->numerator * denominator;
+			result->denominator = denominator * f->denominator;
+		}
+
+		if (result->denominator < 0)
+		{
+			result->numerator *= -1;
+			result->denominator *= -1;
+		}
 	}
 	else
 	{
-		result->numerator = numerator * f->denominator + f->numerator * denominator;
-		result->denominator = denominator * f->denominator;
-	}
+		Float* v = dynamic_cast<Float*>(arg);
 
-	if (result->denominator < 0)
-	{
-		result->numerator *= -1;
-		result->denominator *= -1;
+		Variable* res = operator+(v);
+		return res;
 	}
 
 	return result;
@@ -120,10 +130,10 @@ Variable* Fraction::operator*(Variable* arg)
 	}
 	else
 	{
-		Float* ff = dynamic_cast<Float*>(arg);
+		Float* v = dynamic_cast<Float*>(arg);
 
-		Variable* result = new Float(ff->getVal() / ((double)denominator / (double)numerator));
-		return result;
+		Variable* res = operator*(v);
+		return res;
 	}
 }
 
@@ -156,21 +166,31 @@ Variable* Fraction::operator-(Variable* arg)
 	const Fraction* f = dynamic_cast<const Fraction*>(arg);
 	Fraction* result = new Fraction();
 
-	if (denominator == f->denominator)
+	if (f)
 	{
-		result->numerator = numerator - f->numerator;
-		result->denominator = denominator;
+		if (denominator == f->denominator)
+		{
+			result->numerator = numerator - f->numerator;
+			result->denominator = denominator;
+		}
+		else
+		{
+			result->numerator = numerator * f->denominator - f->numerator * denominator;
+			result->denominator = denominator * f->denominator;
+		}
+
+		if (result->denominator < 0)
+		{
+			result->numerator *= -1;
+			result->denominator *= -1;
+		}
 	}
 	else
 	{
-		result->numerator = numerator * f->denominator - f->numerator * denominator;
-		result->denominator = denominator * f->denominator;
-	}
+		Float* v = dynamic_cast<Float*>(arg);
 
-	if (result->denominator < 0)
-	{
-		result->numerator *= -1;
-		result->denominator *= -1;
+		Variable* res = operator-(v);
+		return res;
 	}
 
 	return result;
@@ -213,16 +233,26 @@ Variable* Fraction::operator/(Variable* arg)
 	const Fraction* f = dynamic_cast<const Fraction*>(arg);
 	Fraction* result = new Fraction();
 
-	if (f->numerator == 0)
-		throw Exceptions(COMPUTE::DIVISION_BY_ZERO);
-
-	result->numerator = numerator * f->denominator;
-	result->denominator = denominator * f->numerator;
-
-	if (result->denominator < 0)
+	if (f)
 	{
-		result->numerator *= -1;
-		result->denominator *= -1;
+		if (f->numerator == 0)
+			throw Exceptions(COMPUTE::DIVISION_BY_ZERO);
+
+		result->numerator = numerator * f->denominator;
+		result->denominator = denominator * f->numerator;
+
+		if (result->denominator < 0)
+		{
+			result->numerator *= -1;
+			result->denominator *= -1;
+		}
+	}
+	else
+	{
+		Float* v = dynamic_cast<Float*>(arg);
+
+		Variable* res = operator/(v);
+		return res;
 	}
 
 	return result;
@@ -257,13 +287,20 @@ Variable* Fraction::operator/(Float* arg)
 
 Variable* Fraction::toUpDegree(Variable* arg)
 {
-	const Fraction* f = dynamic_cast<const Fraction*>(arg);
+	Fraction* f = dynamic_cast<Fraction*>(arg);
+	Fraction* result = new Fraction();
+
+	if (!f)
+	{
+		Float* v = dynamic_cast<Float*>(arg);
+		result = dynamic_cast<Fraction*>(toUpDegree(v));
+
+		return result;
+	}
 
 	if (abs(f->numerator) >= f->denominator && abs(f->numerator) % f->denominator == 0)
 	{
 		int degree = f->numerator / f->denominator;
-
-		Fraction* result = new Fraction();
 
 		if (degree > -1)
 		{
