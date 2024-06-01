@@ -1,6 +1,6 @@
 {
   "type": "fraction",
-  "expression": "a+b",
+  "expression": "a+2",
   "variables":{
     "a": [1, 2],
     "b": [1, 6]

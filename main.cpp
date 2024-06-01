@@ -38,42 +38,15 @@ int main() {
                 Calculator* calc = new Calculator(path);
                 calc->Tokenize();
 
-                Variable* a = (Variable*)calc->getTokens()[0];
-                // Float* b = (Float*)calc->getTokens()[2];
-                Variable* b = (Variable*)calc->getTokens()[2];
+                cout << "Tokens after tokenization: ";
+                calc->printTokens(calc->getTokens());
 
-                switch (dynamic_cast<Operator*>((Operator*)calc->getTokens()[1])->getType())
-                {
-                case operatorsType::PLUS:
-                {
-                    a->print(a->operator+(b));
-                    cout << endl;
-                    break;
-                }
-                case operatorsType::MINUS:
-                {
-                    a->print(a->operator-(b));
-                    cout << endl;
-                    break;
-                }
-                case operatorsType::DIV:
-                {
-                    a->print(a->operator/(b));
-                    cout << endl;
-                    break;
-                }
-                case operatorsType::MULT:
-                {
-                    a->print(a->operator*(b));
-                    cout << endl;
-                    break;
-                }
-                case operatorsType::EXP:
-                {
-                    a->print(a->toUpDegree(b));
-                    cout << endl;
-                }
-                }
+                calc->turnToRPN();
+
+                cout << "Tokens in RPN: ";
+                calc->printTokens(calc->getTokens());
+
+                calc->calculateRPN();
 
                 break;
             }
