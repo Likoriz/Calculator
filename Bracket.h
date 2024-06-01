@@ -7,5 +7,5 @@ private:
     bool isLeftBracket;
 public:
     Bracket(bool isLeft);
-    bool isOpen() const; // Добавляем здесь
+    bool isOpen() const; 
 };

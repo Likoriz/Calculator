@@ -22,6 +22,6 @@ public:
     void turnToRPN();
     void calculateRPN();
     std::vector<Token*> getTokens();
-    int getOperatorPrecedence(operatorsType type); // Добавляем здесь
+    int getOperatorPrecedence(operatorsType type);
     void printTokens(const std::vector<Token*>& tokens);
 };

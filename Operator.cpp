@@ -25,6 +25,6 @@ char Operator::getSymbol() {
     case operatorsType::EXP:
         return '^';
     default:
-        return '?';  // Неизвестный оператор
+        return '?'; 
     }
 }

@@ -208,7 +208,7 @@ void Calculator::calculateRPN() {
         else if (token->getTokenType() == tokenType::OPERATOR) {
             Operator* op = static_cast<Operator*>(token);
             if (stack.size() < 2) {
-                throw std::runtime_error("Insufficient operands for operation");
+                throw std::runtime_error("Недостаточно операндов для работы");
             }
             Variable* right = stack.top(); stack.pop();
             Variable* left = stack.top(); stack.pop();
@@ -231,7 +231,7 @@ void Calculator::calculateRPN() {
                 result = left->toUpDegree(right);
                 break;
             default:
-                throw std::runtime_error("Unknown operator type");
+                throw std::runtime_error("Неизвестный тип оператора");
             }
 
             stack.push(result);
@@ -239,11 +239,11 @@ void Calculator::calculateRPN() {
     }
 
     if (stack.size() != 1) {
-        throw std::runtime_error("Error in expression evaluation");
+        throw std::runtime_error("Ошибка выражения");
     }
 
     Variable* result = stack.top();
-    std::cout << "Result: ";
+    std::cout << "Результат:\n ";
     result->print();
     std::cout << std::endl;
 }
