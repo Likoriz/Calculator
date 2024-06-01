@@ -10,5 +10,6 @@ private:
 public:
 	Operator(operatorsType type);
 	operatorsType getType();
+	char getSymbol();
 };
 

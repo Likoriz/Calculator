@@ -116,6 +116,25 @@ void Calculator::Tokenize()
 	}
 }
 
+void Calculator::printTokens(const std::vector<Token*>& tokens){
+    for (Token* token : tokens) {
+        switch (token->getTokenType()) {
+        case tokenType::CONST:
+        case tokenType::VARIABLE:
+            static_cast<Variable*>(token)->print();
+            break;
+        case tokenType::OPERATOR:
+            cout << static_cast<Operator*>(token)->getSymbol() << " ";
+            break;
+        case tokenType::BRACKET:
+            cout << (static_cast<Bracket*>(token)->isOpen() ? "( " : ") ");
+            break;
+        default:
+            break;
+        }
+    }
+    cout << endl;
+}
 
 int Calculator::getOperatorPrecedence(operatorsType type) {
     switch (type) {

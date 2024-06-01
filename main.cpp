@@ -1,5 +1,4 @@
 #include <iostream>
-
 #include "Calculator.h"
 #include "Variable.h"
 #include "Float.h"
@@ -14,148 +13,121 @@ using json = nlohmann::json;
 
 using namespace std;
 
-int main()
-{
-	system("chcp 1251");
+int main() {
+    system("chcp 1251");
 
-	int choice;
+    int choice;
 
-	try
-	{
-		while (true)
-		{
-			cout << "Считать из файла (1) или ввести вручную (2)? ";
-			cin >> choice;
-			if (cin.fail())
-				throw Exceptions(FORMAT::INVALID_FORMAT);
+    try {
+        while (true) {
+            cout << "Считать из файла (1) или ввести вручную (2)? ";
+            cin >> choice;
+            if (cin.fail())
+                throw Exceptions(FORMAT::INVALID_FORMAT);
 
-			switch (choice)
-			{
-			case 1:
-			{
-				string path;
+            switch (choice) {
+            case 1:
+            {
+                string path;
 
-				cout << "Введите путь к файлу: ";
-				cin >> path;
-				if (cin.fail())
-					throw Exceptions(FORMAT::INVALID_FORMAT);
+                cout << "Введите путь к файлу: ";
+                cin >> path;
+                if (cin.fail())
+                    throw Exceptions(FORMAT::INVALID_FORMAT);
 
-				Calculator* calc = new Calculator(path);
-				calc->Tokenize();
+                Calculator* calc = new Calculator(path);
+                calc->Tokenize();
 
-				Variable* a = (Variable*)calc->getTokens()[0];
-				//Float* b = (Float*)calc->getTokens()[2];
-				Variable* b = (Variable*)calc->getTokens()[2];
+                Variable* a = (Variable*)calc->getTokens()[0];
+                // Float* b = (Float*)calc->getTokens()[2];
+                Variable* b = (Variable*)calc->getTokens()[2];
 
-				switch (dynamic_cast<Operator*>((Operator*)calc->getTokens()[1])->getType())
-				{
-				case operatorsType::PLUS:
-				{
-					a->print(a->operator+(b));
-					cout << endl;
-					break;
-				}
-				case operatorsType::MINUS:
-				{
-					a->print(a->operator-(b));
-					cout << endl;
-					break;
-				}
-				case operatorsType::DIV:
-				{
-					a->print(a->operator/(b));
-					cout << endl;
-					break;
-				}
-				case operatorsType::MULT:
-				{
-					a->print(a->operator*(b));
-					cout << endl;
-					break;
-				}
-				case operatorsType::EXP:
-				{
-					a->print(a->toUpDegree(b));
-					cout << endl;
-				}
-				}
+                switch (dynamic_cast<Operator*>((Operator*)calc->getTokens()[1])->getType())
+                {
+                case operatorsType::PLUS:
+                {
+                    a->print(a->operator+(b));
+                    cout << endl;
+                    break;
+                }
+                case operatorsType::MINUS:
+                {
+                    a->print(a->operator-(b));
+                    cout << endl;
+                    break;
+                }
+                case operatorsType::DIV:
+                {
+                    a->print(a->operator/(b));
+                    cout << endl;
+                    break;
+                }
+                case operatorsType::MULT:
+                {
+                    a->print(a->operator*(b));
+                    cout << endl;
+                    break;
+                }
+                case operatorsType::EXP:
+                {
+                    a->print(a->toUpDegree(b));
+                    cout << endl;
+                }
+                }
 
-				break;
-			}
-			case 2:
-			{
-				dataType mode;
-				string str;
+                break;
+            }
+            case 2:
+            {
+                dataType mode;
+                string str;
 
-				cout << "Введите режим работы (0 - float, 1 - fraction, 2 - matrix, 3 - bigint, 4 - complex): ";
-				scanf_s("%d", &mode);
-				if (!(mode == dataType::FLOAT || mode == dataType::BIGINT || mode == dataType::COMPLEX || mode == dataType::FRACTION || mode == dataType::MATRIX))
-					throw Exceptions(FORMAT::INVALID_FORMAT);
+                cout << "Введите режим работы (0 - float, 1 - fraction, 2 - matrix, 3 - bigint, 4 - complex): ";
+                scanf_s("%d", &mode);
+                if (!(mode == dataType::FLOAT || mode == dataType::BIGINT || mode == dataType::COMPLEX || mode == dataType::FRACTION || mode == dataType::MATRIX))
+                    throw Exceptions(FORMAT::INVALID_FORMAT);
 
-				cout << "Введите пример:";
-				cin >> str;
-				if (cin.fail())
-					throw Exceptions(FORMAT::INVALID_FORMAT);
+                cout << "Введите пример:";
+                cin >> str;
+                if (cin.fail())
+                    throw Exceptions(FORMAT::INVALID_FORMAT);
 
-				Calculator* calc = new Calculator(str, mode);
+                Calculator* calc = new Calculator(str, mode);
 
-				calc->Tokenize();
+                calc->Tokenize();
 
-				//Variable* a = (Variable*)calc->getTokens()[0];
-				Float* a = (Float*)calc->getTokens()[0];
-				//Float* b = (Float*)calc->getTokens()[2];
-				Variable* b = (Variable*)calc->getTokens()[2];
+                // Закомментируем строки для переменных и float
+                // Variable* a = (Variable*)calc->getTokens()[0];
+                // Float* a = (Float*)calc->getTokens()[0];
+                // Float* b = (Float*)calc->getTokens()[2];
+                // Variable* b = (Variable*)calc->getTokens()[2];
 
-				switch (dynamic_cast<Operator*>((Operator*)calc->getTokens()[1])->getType())
-				{
-				case operatorsType::PLUS:
-				{
-					a->print(myPlus(a, b));
-					cout << endl;
-					break;
-				}
-				case operatorsType::MINUS:
-				{
-					a->print(myMinus(a,b));
-					cout << endl;
-					break;
-				}
-				case operatorsType::DIV:
-				{
-					a->print(myDiv(a,b));
-					cout << endl;
-					break;
-				}
-				case operatorsType::MULT:
-				{
-					a->print(myMult(a,b));
-					cout << endl;
-					break;
-				}
-				case operatorsType::EXP:
-				{
-					a->print(a->toUpDegree(b));
-					cout << endl;
-				}
-				}
+                cout << "Tokens after tokenization: ";
+                calc->printTokens(calc->getTokens());
 
-				break;
-			}
-			default:
-				cout << "Такой опции нет!" << endl;
-			}
+                // Преобразуем в ОПЗ
+                calc->turnToRPN();
 
-			cout << endl << endl << endl;
-		}
-	}
-	catch (Exceptions& e)
-	{
-		cout << "Во время выполнения программы возникла ошибка: " << e.what() << endl;
-	}
-	catch (...)
-	{
+                cout << "Tokens in RPN: ";
+                calc->printTokens(calc->getTokens());
 
-		cout << "wut?" << endl;
-	}
-	system("pause");
+                // Вычисляем результат
+                calc->calculateRPN();
+
+                break;
+            }
+            default:
+                cout << "Такой опции нет!" << endl;
+            }
+
+            cout << endl << endl << endl;
+        }
+    }
+    catch (Exceptions& e) {
+        cout << "Во время выполнения программы возникла ошибка: " << e.what() << endl;
+    }
+    catch (...) {
+        cout << "wut?" << endl;
+    }
+    system("pause");
 }
