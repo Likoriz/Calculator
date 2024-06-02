@@ -1,11 +1,11 @@
 #pragma once
 #include "Token.h"
-class Bracket :
-    public Token
+
+class Bracket : public Token
 {
 private:
-	bool isLeftBracket;
+    bool isLeftBracket;
 public:
-	Bracket(bool isLeft);
+    Bracket(bool isLeft);
+    bool isOpen() const; 
 };
-

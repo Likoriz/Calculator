@@ -43,12 +43,9 @@ Variable* Complex::operator+(Variable* arg)
 	}
 	else
 	{
-		Float* f = dynamic_cast<Float*>(arg);
+		Float* v = dynamic_cast<Float*>(arg);
 
-		result->real = real + f->getVal();
-		result->imaginary = imaginary;
-
-		return result;
+		result = dynamic_cast<Complex*>(operator+(v));
 	}
 
 	return result;
@@ -77,12 +74,9 @@ Variable* Complex::operator*(Variable* arg)
 	}
 	else
 	{
-		Float* f = dynamic_cast<Float*>(arg);
-		Complex* tmp = new Complex();
-		tmp->real = f->getVal();
+		Float* v = dynamic_cast<Float*>(arg);
 
-		result->real = real * tmp->real - imaginary * tmp->imaginary;
-		result->imaginary = real * tmp->imaginary + tmp->real * imaginary;
+		result = dynamic_cast<Complex*>(operator*(v));
 	}
 
 	return result;
@@ -104,8 +98,17 @@ Variable* Complex::operator-(Variable* arg)
 
 	Complex* result = new Complex();
 
-	result->real = real - c->real;
-	result->imaginary = imaginary - c->imaginary;
+	if (c)
+	{
+		result->real = real - c->real;
+		result->imaginary = imaginary - c->imaginary;
+	}
+	else
+	{
+		Float* v = dynamic_cast<Float*>(arg);
+
+		result = dynamic_cast<Complex*>(operator-(v));
+	}
 
 	return result;
 }
@@ -124,13 +127,22 @@ Variable* Complex::operator/(Variable* arg)
 {
 	const Complex* c = dynamic_cast<const Complex*>(arg);
 
-	if (c->real == 0 && c->imaginary == 0)
-		throw Exceptions(COMPUTE::DIVISION_BY_ZERO);
-
 	Complex* result = new Complex();
 
-	result->real = (real * c->real + imaginary * c->imaginary) / (c->real * c->real + c->imaginary * c->imaginary);
-	result->imaginary = (c->real * imaginary - real * c->imaginary) / (c->real * c->real + c->imaginary * c->imaginary);
+	if (c)
+	{
+		if (c->real == 0 && c->imaginary == 0)
+			throw Exceptions(COMPUTE::DIVISION_BY_ZERO);
+
+		result->real = (real * c->real + imaginary * c->imaginary) / (c->real * c->real + c->imaginary * c->imaginary);
+		result->imaginary = (c->real * imaginary - real * c->imaginary) / (c->real * c->real + c->imaginary * c->imaginary);
+	}
+	else
+	{
+		Float* v = dynamic_cast<Float*>(arg);
+
+		result = dynamic_cast<Complex*>(operator/(v));
+	}
 
 	return result;
 }
@@ -150,7 +162,17 @@ Variable* Complex::operator/(Float* arg)
 
 Variable* Complex::toUpDegree(Variable* arg)
 {
-	throw Exceptions(FORMAT::INVALID_POW);
+	Complex* c = dynamic_cast<Complex*>(arg);
+
+	if (c)
+		throw Exceptions(FORMAT::INVALID_POW);
+	else
+	{
+		Float* v = dynamic_cast<Float*>(arg);
+
+		Complex* result = dynamic_cast<Complex*>(toUpDegree(v));
+		return result;
+	}
 }
 
 Variable* Complex::toUpDegree(Float* arg)

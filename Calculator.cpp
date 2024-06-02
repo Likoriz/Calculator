@@ -10,7 +10,7 @@
 #include "Complex.h"
 #include <algorithm>
 #include "Exceptions.h"
-
+#include <stack>
 using namespace std;
 
 Calculator::Calculator(string str, dataType mode)
@@ -118,15 +118,136 @@ void Calculator::Tokenize()
 	}
 }
 
-
-void Calculator::turnToRPN()
-{
-
+void Calculator::printTokens(const std::vector<Token*>& tokens){
+    for (Token* token : tokens) {
+        switch (token->getTokenType()) {
+        case tokenType::CONST:
+        case tokenType::VARIABLE:
+            static_cast<Variable*>(token)->print();
+            break;
+        case tokenType::OPERATOR:
+            cout << static_cast<Operator*>(token)->getSymbol() << " ";
+            break;
+        case tokenType::BRACKET:
+            cout << (static_cast<Bracket*>(token)->isOpen() ? "( " : ") ");
+            break;
+        default:
+            break;
+        }
+    }
+    cout << endl;
 }
 
-void Calculator::calculateRPN()
-{
+int Calculator::getOperatorPrecedence(operatorsType type) {
+    switch (type) {
+    case operatorsType::PLUS:
+    case operatorsType::MINUS:
+        return 1;
+    case operatorsType::MULT:
+    case operatorsType::DIV:
+        return 2;
+    case operatorsType::EXP:
+        return 3;
+    default:
+        return 0;
+    }
+}
 
+void Calculator::turnToRPN() {
+    std::vector<Token*> output;
+    std::stack<Token*> operators;
+
+    for (Token* token : tokens) {
+        if (token->getTokenType() == tokenType::CONST || token->getTokenType() == tokenType::VARIABLE) {
+            output.push_back(token);
+        }
+        else if (token->getTokenType() == tokenType::OPERATOR) {
+            Operator* op = static_cast<Operator*>(token);
+            while (!operators.empty() && operators.top()->getTokenType() == tokenType::OPERATOR) {
+                Operator* topOp = static_cast<Operator*>(operators.top());
+                if (getOperatorPrecedence(topOp->getType()) >= getOperatorPrecedence(op->getType())) {
+                    output.push_back(topOp);
+                    operators.pop();
+                }
+                else {
+                    break;
+                }
+            }
+            operators.push(op);
+        }
+        else if (token->getTokenType() == tokenType::BRACKET) {
+            Bracket* bracket = static_cast<Bracket*>(token);
+            if (bracket->isOpen()) {
+                operators.push(bracket);
+            }
+            else {
+                while (!operators.empty() && operators.top()->getTokenType() != tokenType::BRACKET) {
+                    output.push_back(operators.top());
+                    operators.pop();
+                }
+                if (!operators.empty() && operators.top()->getTokenType() == tokenType::BRACKET) {
+                    operators.pop();
+                }
+            }
+        }
+    }
+
+    while (!operators.empty()) {
+        output.push_back(operators.top());
+        operators.pop();
+    }
+
+    tokens = output;
+}
+
+void Calculator::calculateRPN() {
+    std::stack<Variable*> stack;
+
+    for (Token* token : tokens) {
+        if (token->getTokenType() == tokenType::CONST || token->getTokenType() == tokenType::VARIABLE) {
+            stack.push(static_cast<Variable*>(token));
+        }
+        else if (token->getTokenType() == tokenType::OPERATOR) {
+            Operator* op = static_cast<Operator*>(token);
+            if (stack.size() < 2) {
+                throw std::runtime_error("Недостаточно операндов для работы");
+            }
+            Variable* right = stack.top(); stack.pop();
+            Variable* left = stack.top(); stack.pop();
+            Variable* result = nullptr;
+
+            switch (op->getType()) {
+            case operatorsType::PLUS:
+                result = myPlus(left, right);
+                break;
+            case operatorsType::MINUS:
+                result = myMinus(left, right);
+                break;
+            case operatorsType::MULT:
+                result = myMult(left, right);
+                break;
+            case operatorsType::DIV:
+                result = myDiv(left, right);
+                break;
+            case operatorsType::EXP:
+                result = left->toUpDegree(right);
+                break;
+            default:
+                throw std::runtime_error("Неизвестный тип оператора");
+            }
+
+            stack.push(result);
+        }
+    }
+
+    if (stack.size() != 1) {
+        throw std::runtime_error("Ошибка выражения");
+    }
+
+    Variable* result = stack.top();
+    std::cout << "Результат:\n ";
+    result->print();
+    std::cout << std::endl;
 }
 
 std::vector <Token*> Calculator::getTokens()
