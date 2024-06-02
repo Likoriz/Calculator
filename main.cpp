@@ -61,7 +61,8 @@ int main() {
                     throw Exceptions(FORMAT::INVALID_FORMAT);
 
                 cout << "¬ведите пример:";
-                cin >> str;
+				getchar();
+				getline(cin, str);
                 if (cin.fail())
                     throw Exceptions(FORMAT::INVALID_FORMAT);
 
