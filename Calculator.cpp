@@ -57,6 +57,8 @@ void Calculator::Tokenize()
 			tokens.push_back(new Operator(operatorsType::MULT)); break;
 		case '^':
 			tokens.push_back(new Operator(operatorsType::EXP)); break;
+		case ' ':
+			break;
 		default:
 			if (*it >= '0' && *it <= '9')
 			{

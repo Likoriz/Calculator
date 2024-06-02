@@ -10,7 +10,7 @@ private:
 	std::vector<int> digits;
 	bool isNegative=0;
 	bool isInverted=0;
-public: 
+public:
 	BigInteger(std::string name);
 	BigInteger(Float* arg);
 	BigInteger(int val);
@@ -37,7 +37,7 @@ public:
 	Variable* toUpDegree(Variable* arg);
 	Variable* toUpDegree(Float* arg);
 
-	void print(Variable* arg = nullptr);
+	void print(Variable* arg=nullptr);
 	bool getNegative();
 	std::vector<int> getDigits();
 	void removeLeadingZeros();

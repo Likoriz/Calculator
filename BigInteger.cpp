@@ -121,7 +121,7 @@ bool operator >=(BigInteger& left, BigInteger& right) {
 Variable* BigInteger::operator+(Float* arg)
 {
 	BigInteger* tmp=new BigInteger(arg);
-	*this=*(BigInteger*)this->operator+(tmp);
+	this->operator+(tmp);
 	delete tmp;
 	return this;
 }
@@ -132,8 +132,8 @@ Variable* BigInteger::operator+(Variable* arg)
 	{
 		BigInteger* tmpArg=(BigInteger*)arg;
 		if (isNegative) {
-			if (tmpArg->isNegative) return ((BigInteger*)((this->operator-())->operator+((Variable*)(tmpArg->operator-()))))->operator-();
-			else return *tmpArg - (this);
+			if (this->isNegative) return ((BigInteger*)((this->operator-())->operator+((Variable*)(tmpArg->operator-()))))->operator-();
+			else return *tmpArg - (-*this);
 		}
 		else if (tmpArg->isNegative) return *this - (-*(BigInteger*)(tmpArg));
 		int carry=0; // флаг переноса из предыдущего разряда
@@ -162,25 +162,20 @@ Variable* BigInteger::operator*(Variable* arg)
 		BigInteger* result=new BigInteger();
 		BigInteger* tmpArg=(BigInteger*)arg;
 		result->digits.resize(this->digits.size() + tmpArg->digits.size());
-		for (size_t i=0; i < this->digits.size(); ++i) {
-			int carry=0;
-			for (size_t j=0; j < tmpArg->digits.size() || carry != 0; ++j)
-			{
-				double cur;
-				if (isInverted)
-				{
-					cur=result->digits[i + j] +
-						(1.0 / this->digits[i]) * 1LL * (j < tmpArg->digits.size() ? tmpArg->digits[j] : 0) + carry;
-				}
-				else
-				{
-					cur=result->digits[i + j] +
+		if (!this->isInverted)
+		{
+			for (size_t i=0; i < this->digits.size(); ++i) {
+				int carry=0;
+				for (size_t j=0; j < tmpArg->digits.size() || carry != 0; ++j) {
+					long long cur=result->digits[i + j] +
 						this->digits[i] * 1LL * (j < tmpArg->digits.size() ? tmpArg->digits[j] : 0) + carry;
+					result->digits[i + j]=static_cast<int>(cur % BigInteger::BASE);
+					carry=static_cast<int>(cur / BigInteger::BASE);
 				}
-				result->digits[i + j]=static_cast<int>(cur) % BigInteger::BASE;
-				carry=static_cast<int>(cur / BigInteger::BASE);
 			}
 		}
+		else
+			*result=*((BigInteger*)(tmpArg->operator/(this)));
 		// не забудем про знак
 		result->isNegative=this->isNegative != tmpArg->isNegative;
 		result->removeLeadingZeros();
@@ -254,24 +249,23 @@ Variable* BigInteger::operator/(Variable* arg)
 		tmpArg->isNegative=false;
 		BigInteger* result=new BigInteger(), current;
 		result->digits.resize(this->digits.size());
-		for (long long i=static_cast<long long>(this->digits.size()) - 1; i >= 0; --i) {
+		signed long long i=static_cast<signed long long>(this->digits.size()) - 1;
+		for (; i >= 0; i--) {
 			current.shiftRight();
 			current.digits[0]=this->digits[i];
 			current.removeLeadingZeros();
 			int x=0, l=0, r=current.digits[0];
-			while (l < r) {
+			while (l <= r) {
 				int m=(l + r) / 2;
 				BigInteger* t, copy;
 				copy=*tmpArg;
 				tmpArg=(BigInteger*)arg;
-				t=(BigInteger*)(copy*(m));
+				t=(BigInteger*)(copy * (m));
 				if (*t <= current) {
+					x=m;
 					l=m+1;
 				}
 				else r=m - 1;
-			}
-			if (tmpArg->operator*(r) <= this) {
-				l=r;
 			}
 			result->digits[i]=l;
 			current=*(BigInteger*)(current - *tmpArg * x);
@@ -314,8 +308,7 @@ Variable* BigInteger::toUpDegree(Variable* arg)
 		BigInteger tmpArg=*(BigInteger*)arg;
 		if (tmpArg.odd())
 			result.operator*=(this);
-		while (tmpArg.digits[0] > 1)
-		{
+		while (tmpArg.digits[0] > 0) {
 			result.operator*=(this);
 			tmpArg.digits[0]-=1;
 		}
