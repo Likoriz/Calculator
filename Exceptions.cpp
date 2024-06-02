@@ -65,6 +65,10 @@ Exceptions::Exceptions(FORMAT error)
 	case FORMAT::INVALID_FORMAT:
 		message = "Некорректный формат записи!";
 		break;
+	case FORMAT::INVALID_OPERAND:
+		message = "Неизвестный тип оператора";
+	case FORMAT::INVALID_EXPRESSION:
+		message = "Ошибка выражения";
 	default:
 		message = "Неизвестная ошибка формата!";
 		break;
