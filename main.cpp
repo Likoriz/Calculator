@@ -38,12 +38,12 @@ int main() {
                 Calculator* calc = new Calculator(path);
                 calc->Tokenize();
 
-                cout << "Tokens after tokenization: ";
+                cout << "Токены после токенезации: ";
                 calc->printTokens(calc->getTokens());
 
                 calc->turnToRPN();
 
-                cout << "Tokens in RPN: ";
+                cout << "Запись в ОПН: ";
                 calc->printTokens(calc->getTokens());
 
                 calc->calculateRPN();
@@ -70,16 +70,12 @@ int main() {
 
                 calc->Tokenize();
 
-                cout << "Tokens after tokenization: ";
+                cout << "Токены после токенезации: ";
                 calc->printTokens(calc->getTokens());
-
-                // Преобразуем в ОПЗ
                 calc->turnToRPN();
 
-                cout << "ОПН: ";
+                cout << "Запись в ОПН: ";
                 calc->printTokens(calc->getTokens());
-
-                // Вычисляем результат
                 calc->calculateRPN();
 
                 break;
