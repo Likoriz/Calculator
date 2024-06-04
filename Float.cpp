@@ -25,8 +25,8 @@ Variable* myMinus(Variable* left, Variable* right)
 {
 	switch (left->getDataType())
 	{
-	case dataType::FLOAT: return right->operator* (new Float(-1))->operator+(left); 
-	default: return *left - right; 
+    	case dataType::FLOAT: return right->operator* (new Float(-1))->operator+(left); 
+	    default: return *left - right; 
 	}
 }
 
