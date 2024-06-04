@@ -372,8 +372,8 @@ void Fraction::print(Variable* arg)
 	}
 	else
 	{
-		minimize();
-		cout << integer << "[" << numerator << "/" << denominator << "]" << endl;
+		Fraction* fr = minimize();
+		cout << fr->integer << "[" << fr->numerator << "/" << fr->denominator << "]" << endl;
 	}
 }
 
