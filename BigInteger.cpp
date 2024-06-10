@@ -15,6 +15,7 @@ BigInteger::BigInteger(string name) :Variable(name)
 }
 BigInteger::BigInteger(string name, string bi) : Variable(name, 0)
 {
+	setDataType(dataType::BIGINT);
 	turnStrToBi(name, bi);
 }
 

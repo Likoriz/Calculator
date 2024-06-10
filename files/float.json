@@ -1,6 +1,6 @@
 {
   "type": "float",
-  "expression": "2+a",
+  "expression": "b+a",
   "variables": {
     "a": 2.01,
     "b": 3
