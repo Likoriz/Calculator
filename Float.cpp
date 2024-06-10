@@ -74,38 +74,44 @@ void Float::setVal(float value)
 
 Variable* Float::operator+(Variable* arg)
 {
-	val += ((Float*)arg)->val;
-	return this;
+	Float* res=new Float(val);
+	res->val += ((Float*)arg)->val;
+	return res;
 }
 
 Variable* Float::operator+(Float* arg)
 {
-	val += arg->val;
-	return this;
+	Float* res=new Float(val);
+	res->val += arg->val;
+	return res;
 }
 
 Variable* Float::operator*(Variable* arg)
 {
-	val *= ((Float*)arg)->val;
-	return this;
+	Float* res= new Float(val);
+	res->val *= ((Float*)arg)->val;
+	return res;
 }
 
 Variable* Float::operator*(Float* arg)
 {
-	val *= arg->val;
-	return this;
+	Float* res=new Float(val);
+	res->val *= arg->val;
+	return res;
 }
 
 Variable* Float::operator-(Variable* arg)
 {
-	val -= ((Float*)arg)->val;
-	return this;
+	Float* res=new Float(val);
+	res->val -= ((Float*)arg)->val;
+	return res;
 }
 
 Variable* Float::operator-(Float* arg)
 {
-	val -= arg->val;
-	return this;
+	Float* res=new Float(val);
+	res->val -= arg->val;
+	return res;
 }
 
 Variable* Float::operator/(Variable* arg)
@@ -114,8 +120,9 @@ Variable* Float::operator/(Variable* arg)
 	{
 		throw Exceptions(COMPUTE::DIVISION_BY_ZERO);
 	}
-	val /= ((Float*)arg)->val;
-	return this;
+	Float* res=new Float(val);
+	res->val /= ((Float*)arg)->val;
+	return res;
 }
 
 Variable* Float::operator/(Float* arg)
@@ -124,8 +131,9 @@ Variable* Float::operator/(Float* arg)
 	{
 		throw Exceptions(COMPUTE::DIVISION_BY_ZERO);
 	}
-	val /= arg->val;
-	return this;
+	Float* res=new Float(val);
+	res->val /= arg->val;
+	return res;
 }
 
 Variable* Float::toUpDegree(Variable* arg)
@@ -133,8 +141,9 @@ Variable* Float::toUpDegree(Variable* arg)
 	Float* f = dynamic_cast<Float*>(arg);
 	if (f)
 	{
-		val = pow(val, ((Float*)arg)->val);
-		return this;
+		Float* res=new Float(val);
+		res->val = pow(val, ((Float*)arg)->val);
+		return res;
 	}
 	else
 		throw Exceptions(FORMAT::INVALID_POW);
@@ -142,8 +151,9 @@ Variable* Float::toUpDegree(Variable* arg)
 
 Variable* Float::toUpDegree(Float* arg)
 {
-	val = pow(val, arg->getVal());
-	return this;
+	Float* res=new Float(val);
+	res->val = pow(val, arg->getVal());
+	return res;
 }
 
 void Float::print(Variable* arg)
