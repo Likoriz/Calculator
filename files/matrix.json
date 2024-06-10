@@ -1,6 +1,6 @@
 {
   "type": "matrix",
-  "expression": "a+b",
+  "expression": "1+a+b+2",
   "variables": {
     "a": {
       "size": [2, 2],

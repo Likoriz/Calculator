@@ -1,6 +1,6 @@
 {
   "type": "fraction",
-  "expression": "a+b",
+  "expression": "1-a+b-b+25^2",
   "variables":{
     "a": [1, 2],
     "b": [1, 6]

@@ -1,8 +1,8 @@
 {
   "type": "bigint",
-  "expression": "a+b+1",
+  "expression": "a-a+b+1-6/2+4^2",
   "variables": {
     "a": "12345678",
-    "b": "2"
+    "b": "87654321"
   }
 }
